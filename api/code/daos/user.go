@@ -1,35 +1,32 @@
 package daos
 
 import (
-	"github.com/Maybeenaught/deer-woman-dezigns/code/config"
-	"github.com/Maybeenaught/deer-woman-dezigns/code/models"
+	"strconv"
+
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/config"
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/models"
 )
 
-// UserDAO persists user data in database
 type UserDAO struct{}
 
-// NewUserDAO creates a new UserDAO
 func NewUserDAO() *UserDAO {
 	return &UserDAO{}
 }
 
-// Get does the actual query to database, if user with specified id is not found error is returned
-func (dao *UserDAO) Get(id uint) (*models.User, error) {
+func (dao *UserDAO) Get(id int) (*models.User, error) {
 	var user models.User
 
-	// Query Database here...
-
-	//user = models.User{
-	//	Model: models.Model{ID: 1},
-	//	FirstName: "Sample",
-	//	LastName: "McSampleson",
-	//	Address: "55555 Sample Drive, Sample, Alaska",
-	//	Email: "Sample.McSampleson@gmail.com"}
-
-	// if using Gorm:
-	err := config.Config.DB.Where("id = ?", id).
-		First(&user).
-		Error
+	table := config.Config.DB.Table("Users")
+	err := table.Get("user_id", strconv.Itoa(id)).One(&user)
 
 	return &user, err
+}
+
+func (dao *UserDAO) GetAll() (*[]models.User, error) {
+	var users []models.User
+
+	table := config.Config.DB.Table("Users")
+	err := table.Scan().All(&users)
+
+	return &users, err
 }

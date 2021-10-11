@@ -6,17 +6,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Maybeenaught/deer-woman-dezigns/code/apis"
-	"github.com/Maybeenaught/deer-woman-dezigns/code/config"
-	"github.com/Maybeenaught/deer-woman-dezigns/code/httputil"
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/apis"
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/config"
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/httputil"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/guregu/dynamo"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "github.com/Maybeenaught/deer-woman-dezigns/code/docs"
+	_ "github.com/deer-woman-dezigns/deer-woman-dezigns/code/docs"
 )
 
 // @title Deer Woman Dezigns Swagger API
@@ -36,12 +38,10 @@ import (
 // @in header
 // @name Authorization
 func main() {
-	// load application configurations
 	if err := config.LoadConfig("config"); err != nil {
 		panic(fmt.Errorf("invalid application configuration: %s", err))
 	}
 
-	// Creates a router without any middleware by default
 	r := gin.New()
 
 	// Global middleware
@@ -58,16 +58,11 @@ func main() {
 	{
 		v1.Use(auth())
 		v1.GET("/users/:id", apis.GetUser)
+		v1.GET("/users", apis.GetAllUsers)
 	}
 
-	config.Config.DB, config.Config.DBErr = gorm.Open("postgres", config.Config.DSN)
-	if config.Config.DBErr != nil {
-		panic(config.Config.DBErr)
-	}
-
-	// config.Config.DB.AutoMigrate(&models.User{}) // This is needed for generation of schema for postgres image.
-
-	defer config.Config.DB.Close()
+	sess := session.Must(session.NewSession())
+	config.Config.DB = dynamo.New(sess, &aws.Config{Region: aws.String("us-east-2")})
 
 	log.Println("Successfully connected to database")
 

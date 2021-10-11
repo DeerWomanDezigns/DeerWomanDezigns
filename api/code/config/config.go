@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/jinzhu/gorm"
+	"github.com/guregu/dynamo"
 	"github.com/spf13/viper"
 )
 
@@ -12,7 +12,7 @@ var Config appConfig
 
 type appConfig struct {
 	// the shared DB ORM object
-	DB *gorm.DB
+	DB *dynamo.DB
 	// the error thrown be GORM when using DB ORM object
 	DBErr error
 	// the server port. Defaults to 8080
@@ -32,12 +32,9 @@ func LoadConfig(configPaths ...string) error {
 	v := viper.New()
 	v.SetConfigName("server")
 	v.SetConfigType("yaml")
-
 	v.AutomaticEnv()
 
-	//Config.DSN = v.Get("DSN").(string)
-	//Config.ApiKey = v.Get("API_KEY").(string)
-	v.SetDefault("server_port", 1234)
+	v.SetDefault("server_port", 10000)
 
 	for _, path := range configPaths {
 		v.AddConfigPath(path)
