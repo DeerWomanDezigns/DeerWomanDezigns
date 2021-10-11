@@ -3,6 +3,7 @@ package apis
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/daos"
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/models"
@@ -57,10 +58,10 @@ func AddUser(c *gin.Context) {
 	var err error
 	var newUser models.User
 	if c.ShouldBind(&newUser) != nil {
-		c.AbortWithStatus(http.StatusBadRequest)
-		log.Println(err)
-	}
-	if user, err := s.Add(newUser); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "Malformed request body"})
+	} else if _, err = strconv.Atoi(newUser.ID); err == nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "ID must be valid int"})
+	} else if user, err := s.Add(newUser); err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		log.Println(err)
 	} else {
