@@ -44,6 +44,14 @@ func GetAllUsers(c *gin.Context) {
 	}
 }
 
+// AddUser godoc
+// @Summary Adds and returns user based on given json
+// @Accept json
+// @Param data body models.User true "body data"
+// @Produce json
+// @Success 200 {object} models.User
+// @Router /users [post]
+// @Security ApiKeyAuth
 func AddUser(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())
 	var err error

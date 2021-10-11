@@ -67,6 +67,17 @@ var doc = `{
                     "application/json"
                 ],
                 "summary": "Adds and returns user based on given json",
+                "parameters": [
+                    {
+                        "description": "body data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
