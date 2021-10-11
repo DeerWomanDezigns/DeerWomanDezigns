@@ -29,7 +29,7 @@ import (
 // @contact.name API Support
 // @contact.email deerwomandezigns.site@gmail.com
 
-// @license.name MIT
+// @license.name Creative Commons
 // @license.url https://github.com/Maybeenaught/DeerWomanDezigns/blob/main/license.md
 
 // @BasePath /api/v1
