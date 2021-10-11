@@ -13,12 +13,8 @@ var Config appConfig
 type appConfig struct {
 	// the shared DB ORM object
 	DB *dynamo.DB
-	// the error thrown be GORM when using DB ORM object
-	DBErr error
 	// the server port. Defaults to 8080
 	ServerPort int `mapstructure:"server_port"`
-	// the data source name (DSN) for connecting to the database. required.
-	DSN string `mapstructure:"dsn"`
 	// the API key needed to authorize to API. required.
 	ApiKey string `mapstructure:"api_key"`
 	// Certificate file for HTTPS
