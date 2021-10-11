@@ -18,7 +18,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "github.com/deer-woman-dezigns/deer-woman-dezigns/code/docs"
+	_ "github.com/deer-woman-dezigns/deer-woman-dezigns/docs"
 )
 
 // @title Deer Woman Dezigns Swagger API
@@ -29,7 +29,7 @@ import (
 // @contact.name API Support
 // @contact.email deerwomandezigns.site@gmail.com
 
-// @license.name MIT
+// @license.name Creative Commons
 // @license.url https://github.com/Maybeenaught/DeerWomanDezigns/blob/main/license.md
 
 // @BasePath /api/v1
@@ -57,8 +57,11 @@ func main() {
 	v1 := r.Group("/api/v1")
 	{
 		v1.Use(auth())
-		v1.GET("/users/:id", apis.GetUser)
 		v1.GET("/users", apis.GetAllUsers)
+		v1.GET("/users/:id", apis.GetUser)
+		v1.POST("/users", apis.AddUser)
+		v1.PUT("/users/:id", apis.ModifyUser)
+		v1.DELETE("/users/:id", apis.DeleteUser)
 	}
 
 	sess := session.Must(session.NewSession())

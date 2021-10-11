@@ -3,8 +3,11 @@ package services
 import "github.com/deer-woman-dezigns/deer-woman-dezigns/code/models"
 
 type userDAO interface {
-	Get(id int) (*models.User, error)
+	Get(id string) (*models.User, error)
 	GetAll() (*[]models.User, error)
+	Add(newUser models.User) (*models.User, error)
+	Modify(id string, newUserValues models.User) (*models.User, error)
+	Delete(id string) error
 }
 
 type UserService struct {
@@ -17,10 +20,22 @@ func NewUserService(dao userDAO) *UserService {
 }
 
 // Get just retrieves user using User DAO, here can be additional logic for processing data retrieved by DAOs
-func (s *UserService) Get(id int) (*models.User, error) {
+func (s *UserService) Get(id string) (*models.User, error) {
 	return s.dao.Get(id)
 }
 
 func (s *UserService) GetAll() (*[]models.User, error) {
 	return s.dao.GetAll()
+}
+
+func (s *UserService) Add(newUser models.User) (*models.User, error) {
+	return s.dao.Add(newUser)
+}
+
+func (s *UserService) Modify(id string, newUserValues models.User) (*models.User, error) {
+	return s.dao.Modify(id, newUserValues)
+}
+
+func (s *UserService) Delete(id string) error {
+	return s.dao.Delete(id)
 }
