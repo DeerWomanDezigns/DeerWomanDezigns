@@ -59,8 +59,10 @@ func AddUser(c *gin.Context) {
 	var newUser models.User
 	if c.ShouldBind(&newUser) != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "Malformed request body"})
-	} else if _, err = strconv.Atoi(newUser.ID); err == nil {
+	} else if _, err = strconv.Atoi(newUser.ID); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "ID must be valid int"})
+	} else if existing, _ := s.Get(newUser.ID); existing != nil {
+		c.AbortWithStatusJSON(http.StatusConflict, gin.H{"status": false, "message": "User already present with this ID"})
 	} else if user, err := s.Add(newUser); err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		log.Println(err)
