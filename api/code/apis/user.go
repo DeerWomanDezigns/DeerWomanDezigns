@@ -67,3 +67,34 @@ func AddUser(c *gin.Context) {
 		c.JSON(http.StatusOK, user)
 	}
 }
+
+// ModifyUser godoc
+// @Summary Modifies and returns user based on given id and json
+// @Accept json
+// @Param id path integer true "User ID"
+// @Param data body models.User true "body data"
+// @Produce json
+// @Success 200 {object} models.User
+// @Router /users/{id} [put]
+// @Security ApiKeyAuth
+func ModifyUser(c *gin.Context) {
+	s := services.NewUserService(daos.NewUserDAO())
+	id := c.Param("id")
+
+	var newUserValues models.User
+	if c.ShouldBind(&newUserValues) != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "Malformed request body"})
+		log.Println("Malformed request body")
+	} else if newUserValues.ID != "" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "ID should not be given in request body for PUT"})
+	} else {
+		var user *models.User
+		var err error
+		if user, err = s.Modify(id, newUserValues); err != nil {
+			c.AbortWithStatus(http.StatusNotFound)
+			log.Println(err)
+		} else {
+			c.JSON(http.StatusOK, &user)
+		}
+	}
+}

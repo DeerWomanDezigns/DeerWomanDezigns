@@ -40,3 +40,19 @@ func (dao *UserDAO) Add(newUser models.User) (*models.User, error) {
 
 	return user, err
 }
+
+func (dao *UserDAO) Modify(id string, newUserValues models.User) (*models.User, error) {
+	var user *models.User
+	var err error
+
+	if user, err = dao.Get(id); err == nil && user != nil {
+		table := config.Config.DB.Table("Users")
+		newUserValues.ID = id
+		err = table.Put(newUserValues).Run()
+		if err == nil {
+			user, err = dao.Get(id)
+		}
+	}
+
+	return user, err
+}

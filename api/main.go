@@ -60,6 +60,7 @@ func main() {
 		v1.GET("/users", apis.GetAllUsers)
 		v1.GET("/users/:id", apis.GetUser)
 		v1.POST("/users", apis.AddUser)
+		v1.PUT("/users/:id", apis.ModifyUser)
 	}
 
 	sess := session.Must(session.NewSession())

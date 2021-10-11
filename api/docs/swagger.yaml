@@ -12,12 +12,6 @@ definitions:
         type: string
       lastName:
         type: string
-    required:
-    - address
-    - email
-    - firstName
-    - id
-    - lastName
     type: object
 info:
   contact:
@@ -83,6 +77,31 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Retrieves user based on given ID
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Modifies and returns user based on given id and json
 securityDefinitions:
   ApiKeyAuth:
     in: header

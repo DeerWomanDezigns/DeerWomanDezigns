@@ -6,6 +6,7 @@ type userDAO interface {
 	Get(id string) (*models.User, error)
 	GetAll() (*[]models.User, error)
 	Add(newUser models.User) (*models.User, error)
+	Modify(id string, newUserValues models.User) (*models.User, error)
 }
 
 type UserService struct {
@@ -28,4 +29,8 @@ func (s *UserService) GetAll() (*[]models.User, error) {
 
 func (s *UserService) Add(newUser models.User) (*models.User, error) {
 	return s.dao.Add(newUser)
+}
+
+func (s *UserService) Modify(id string, newUserValues models.User) (*models.User, error) {
+	return s.dao.Modify(id, newUserValues)
 }
