@@ -60,6 +60,21 @@ paths:
       - ApiKeyAuth: []
       summary: Adds and returns user based on given json
   /users/{id}:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes user based on given ID
     get:
       parameters:
       - description: User ID

@@ -56,3 +56,11 @@ func (dao *UserDAO) Modify(id string, newUserValues models.User) (*models.User, 
 
 	return user, err
 }
+
+func (dao *UserDAO) Delete(id string) error {
+
+	table := config.Config.DB.Table("Users")
+	err := table.Delete("user_id", id).Run()
+
+	return err
+}

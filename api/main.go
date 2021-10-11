@@ -61,6 +61,7 @@ func main() {
 		v1.GET("/users/:id", apis.GetUser)
 		v1.POST("/users", apis.AddUser)
 		v1.PUT("/users/:id", apis.ModifyUser)
+		v1.DELETE("/users/:id", apis.DeleteUser)
 	}
 
 	sess := session.Must(session.NewSession())

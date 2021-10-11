@@ -97,3 +97,24 @@ func ModifyUser(c *gin.Context) {
 		c.JSON(http.StatusOK, &user)
 	}
 }
+
+// DeleteUser godoc
+// @Summary Deletes user based on given ID
+// @Produce json
+// @Param id path integer true "User ID"
+// @Success 200
+// @Router /users/{id} [delete]
+// @Security ApiKeyAuth
+func DeleteUser(c *gin.Context) {
+	s := services.NewUserService(daos.NewUserDAO())
+	id := c.Param("id")
+	if _, err := s.Get(id); err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		log.Println(err)
+	} else if err := s.Delete(id); err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		log.Println(err)
+	} else {
+		c.JSON(http.StatusOK, nil)
+	}
+}
