@@ -90,14 +90,10 @@ func ModifyUser(c *gin.Context) {
 		log.Println("Malformed request body")
 	} else if newUserValues.ID != "" {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": false, "message": "ID should not be given in request body for PUT"})
+	} else if user, err := s.Modify(id, newUserValues); err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		log.Println(err)
 	} else {
-		var user *models.User
-		var err error
-		if user, err = s.Modify(id, newUserValues); err != nil {
-			c.AbortWithStatus(http.StatusNotFound)
-			log.Println(err)
-		} else {
-			c.JSON(http.StatusOK, &user)
-		}
+		c.JSON(http.StatusOK, &user)
 	}
 }
