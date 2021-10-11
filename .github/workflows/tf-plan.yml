@@ -24,3 +24,6 @@ jobs:
 
       - name: Terraform validation
         run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan
