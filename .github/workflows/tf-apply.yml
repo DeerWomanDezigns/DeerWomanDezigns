@@ -1,8 +1,9 @@
-name: tf-plan
+name: tf-apply
 
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,6 +31,26 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -input=false
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        working-directory: infra
+
+  apply:
+    runs-on: ubuntu-latest
+    environment: aws-prod
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Terraform init
+        run: terraform init -input=false
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        working-directory: infra
+
+      - name: Terraform apply
+        run: terraform apply -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
