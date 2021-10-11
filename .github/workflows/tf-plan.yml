@@ -1,4 +1,4 @@
-name: tf-apply
+name: tf-plan
 
 on:
   pull_request:
