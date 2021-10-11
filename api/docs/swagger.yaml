@@ -45,6 +45,19 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Retrieves all users
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Adds and returns user based on given json
   /users/{id}:
     get:
       parameters:

@@ -18,7 +18,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "github.com/deer-woman-dezigns/deer-woman-dezigns/code/docs"
+	_ "github.com/deer-woman-dezigns/deer-woman-dezigns/docs"
 )
 
 // @title Deer Woman Dezigns Swagger API
