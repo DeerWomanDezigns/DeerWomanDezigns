@@ -57,8 +57,9 @@ func main() {
 	v1 := r.Group("/api/v1")
 	{
 		v1.Use(auth())
-		v1.GET("/users/:id", apis.GetUser)
 		v1.GET("/users", apis.GetAllUsers)
+		v1.GET("/users/:id", apis.GetUser)
+		v1.POST("/users", apis.AddUser)
 	}
 
 	sess := session.Must(session.NewSession())

@@ -3,9 +3,9 @@ package apis
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/daos"
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/models"
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/services"
 	"github.com/gin-gonic/gin"
 )
@@ -19,8 +19,8 @@ import (
 // @Security ApiKeyAuth
 func GetUser(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 32)
-	if user, err := s.Get(int(id)); err != nil {
+	id := c.Param("id")
+	if user, err := s.Get(id); err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		log.Println(err)
 	} else {
@@ -41,5 +41,21 @@ func GetAllUsers(c *gin.Context) {
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, users)
+	}
+}
+
+func AddUser(c *gin.Context) {
+	s := services.NewUserService(daos.NewUserDAO())
+	var err error
+	var newUser models.User
+	if c.ShouldBind(&newUser) != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		log.Println(err)
+	}
+	if user, err := s.Add(newUser); err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		log.Println(err)
+	} else {
+		c.JSON(http.StatusOK, user)
 	}
 }
