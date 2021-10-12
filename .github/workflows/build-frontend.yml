@@ -18,6 +18,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
+    - run: npm install
+      working-directory: web/deer-react-app
     - run: npm ci
       working-directory: web/deer-react-app
     - run: npm run build --if-present
