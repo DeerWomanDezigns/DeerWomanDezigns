@@ -53,7 +53,7 @@ func main() {
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	r.Use(gin.Recovery())
 
-	r.Use(middleware.CORSMiddleware())
+	r.Use(middleware.CORS())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
