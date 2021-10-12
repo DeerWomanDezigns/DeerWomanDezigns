@@ -9,6 +9,7 @@ import (
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/apis"
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/config"
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/httputil"
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/middleware"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -51,6 +52,8 @@ func main() {
 
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	r.Use(gin.Recovery())
+
+	r.Use(middleware.CORSMiddleware())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
