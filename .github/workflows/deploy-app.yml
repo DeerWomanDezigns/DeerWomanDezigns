@@ -17,6 +17,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
+            whoami
             sudo yum install git
             sudo yum install go
             git clone --single-branch --branch ${GITHUB_REF##*/} ${github.server_url}/${github.repository}
