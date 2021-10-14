@@ -21,6 +21,6 @@ jobs:
           script: |
             sudo yum install -y git
             sudo yum install -y go
-            ls
+            cd ~/api
             cd DeerWomanDezigns/api
             go run main.go
