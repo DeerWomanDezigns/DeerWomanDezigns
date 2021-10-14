@@ -1,0 +1,31 @@
+name: tf-apply
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.tf'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploying
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH & Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_AWS_SERVER_IP }}
+          username: ${{ secrets.SSH_SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            sudo yum install git
+            sudo yum install go
+            git clone --single-branch --branch ${GITHUB_REF##*/} ${github.server_url}/${github.repository}
+            cd DeerWomanDezigns/api
+            go run main.go
+
