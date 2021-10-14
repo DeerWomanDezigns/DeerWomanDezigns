@@ -18,8 +18,8 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             whoami
-            sudo yum install git
-            sudo yum install go
+            sudo yum install -y git
+            sudo yum install -y go
             git clone --single-branch --branch ${GITHUB_REF##*/} ${github.server_url}/${github.repository}
             cd DeerWomanDezigns/api
             go run main.go
