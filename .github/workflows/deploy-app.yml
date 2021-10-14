@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: SSH & Deploy
         uses: appleboy/ssh-action@master
+        env:
+          GITHUB_BRANCH: ${{ github.ref }}
         with:
           host: ${{ secrets.SSH_AWS_SERVER_IP }}
           username: ${{ secrets.SSH_SERVER_USER }}
