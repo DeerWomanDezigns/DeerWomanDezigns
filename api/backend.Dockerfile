@@ -16,6 +16,7 @@ RUN go get -u github.com/Masterminds/glide/...
 WORKDIR /usr/src/app
 COPY . .
 
+EXPOSE 80
 EXPOSE 443
 RUN go build
 
