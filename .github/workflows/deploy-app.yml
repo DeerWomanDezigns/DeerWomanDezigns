@@ -119,5 +119,5 @@ jobs:
             fi
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_frontend:${branch##*/}
-            image=$(docker images -q)
+            image=$(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
             docker run -d --name dwd_frontend -e "VIRTUAL_HOST=deerwoman-dezigns.com" "LETSENCRYPT_HOST=deerwoman-dezigns.com" $image
