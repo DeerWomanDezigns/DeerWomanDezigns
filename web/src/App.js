@@ -1,15 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from './assets/logo.png';
+import logo from './assets/logo_full.png';
 import './index.css';
 import Image from 'react-bootstrap/Image';
 import React from 'react';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './components/Navigation';
+import Backdrop from './assets/Back.jpg';
+
+var sectionStyle = {
+  backgroundImage: `url(${Backdrop})`
+}
 
 function App() {
   return (
-    <div>
+    <div style={sectionStyle}>
       <div className="body">
         <Navigation />
         <Image src={logo} className="logoMain"/>
