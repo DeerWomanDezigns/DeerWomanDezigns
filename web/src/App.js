@@ -17,7 +17,7 @@ function App() {
     <div style={sectionStyle}>
       <div className="body">
         <Navigation />
-        <Image src={logo} className="logoMain"/>
+        <Image src={logo} className="logoMain" />
       </div>
     </div>
   );
