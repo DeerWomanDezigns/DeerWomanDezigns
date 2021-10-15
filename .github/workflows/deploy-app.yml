@@ -55,3 +55,37 @@ jobs:
           echo VERSION=$VERSION
           docker tag $FRONTEND_IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+  backend_deploy:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    needs: backend_push
+    steps:
+      - name: SSH & Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_AWS_SERVER_IP }}
+          username: ${{ secrets.SSH_SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            docker pull ghcr.io/deerwomandezigns/dwd_backend:${GITHUB_REF##*/}
+            image=$(docker images -q)
+            docker run -p 10000:80 -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_DEFAULT_REGION='us-east-2' --name dwd_backend $image
+
+  frontend_deploy:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    needs: frontend_push
+    steps:
+      - name: SSH & Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_AWS_SERVER_IP }}
+          username: ${{ secrets.SSH_SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            docker pull ghcr.io/deerwomandezigns/dwd_frontend:${GITHUB_REF##*/}
+            image=$(docker images -q)
+            docker run -p 80:80 --name dwd_frontend $image
