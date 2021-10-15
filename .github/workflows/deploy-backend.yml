@@ -1,11 +1,10 @@
-name: deploy-app
+name: deploy-backend
 
 on:
   workflow_dispatch:
 
 env:
   BACKEND_IMAGE_NAME: dwd_backend
-  FRONTEND_IMAGE_NAME: dwd_frontend
 
 jobs:
   backend_push:
@@ -30,30 +29,6 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           docker tag $BACKEND_IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
-
-  frontend_push:
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build image
-        run: docker build . --file frontend.Dockerfile --tag $FRONTEND_IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
-        working-directory: web/
-      - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: Push image
-        run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$FRONTEND_IMAGE_NAME
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          [ "$VERSION" == "master" ] && VERSION=latest
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-          docker tag $FRONTEND_IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
   backend_deploy:
@@ -88,36 +63,3 @@ jobs:
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
             image=$(docker images -q)
             docker run -d -p 443:443 -p 80:80 -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_DEFAULT_REGION='us-east-2' --name dwd_backend $image
-
-  frontend_deploy:
-    name: Deploy Frontend
-    runs-on: ubuntu-latest
-    needs: frontend_push
-    steps:
-      - name: SSH & Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_AWS_FRONTEND_SERVER_IP }}
-          username: ${{ secrets.SSH_SERVER_USER }}
-          key: ${{ secrets.SSH_FRONTEND_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_FRONTEND_PASSPHRASE }}
-          script: |
-            oldRunning=$(docker ps -f 'name=dwd_frontend' -q)
-            if [ -n $oldRunning ] 
-            then
-              docker stop $oldRunning
-              docker rm $oldRunning 
-            else
-              echo "no running container"
-            fi
-            oldImage=$(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
-            if [ -n $oldImage ] 
-            then
-              docker rmi $oldImage
-            else
-              echo "no old image"
-            fi
-            branch="${{github.ref}}"
-            docker pull ghcr.io/deerwomandezigns/dwd_frontend:${branch##*/}
-            image=$(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
-            docker run -d --name dwd_frontend -e "VIRTUAL_HOST=deerwoman-dezigns.com" -e "LETSENCRYPT_HOST=deerwoman-dezigns.com" $image
