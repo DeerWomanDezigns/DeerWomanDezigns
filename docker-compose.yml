@@ -1,0 +1,16 @@
+services:
+  backend:
+    build:
+      context: api/
+      dockerfile: backend.Dockerfile
+    ports:
+      - "10000:10000"
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+  frontend:
+    build:
+      context: web/
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "80:80"
