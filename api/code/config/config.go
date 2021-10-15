@@ -30,7 +30,7 @@ func LoadConfig(configPaths ...string) error {
 	v.SetConfigType("yaml")
 	v.AutomaticEnv()
 
-	v.SetDefault("server_port", 10000)
+	v.SetDefault("server_port", 8080)
 
 	for _, path := range configPaths {
 		v.AddConfigPath(path)
