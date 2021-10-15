@@ -1,26 +1,57 @@
 name: deploy-app
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  BACKEND_IMAGE_NAME: dwd_backend
+  FRONTEND_IMAGE_NAME: dwd_frontend
+
 jobs:
-  deploy:
-    name: Deploying
+  backend_push:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
-      - name: SSH & Deploy
-        uses: appleboy/ssh-action@master
-        env:
-          GITHUB_BRANCH: ${{ github.ref }}
-        with:
-          host: ${{ secrets.SSH_AWS_SERVER_IP }}
-          username: ${{ secrets.SSH_SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |
-            sudo yum install -y git
-            sudo yum install -y go
-            cd ~/api
-            cd DeerWomanDezigns/api
-            go run main.go
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: docker build . --file backend.Dockerfile --tag $BACKEND_IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+        working-directory: api/
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$BACKEND_IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $BACKEND_IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+
+  frontend_push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: docker build . --file frontend.Dockerfile --tag $FRONTEND_IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+        working-directory: web/
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$FRONTEND_IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $FRONTEND_IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
