@@ -27,6 +27,8 @@ psd
 thumb
 sketch
 
+web/build/
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
