@@ -1,16 +1,34 @@
 <img src="web/src/assets/logo.png" alt="logo" width="200"/>
 <br /><br />
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=DeerWomanDezigns_DeerWomanDezigns&metric=bugs)](https://sonarcloud.io/dashboard?id=DeerWomanDezigns_DeerWomanDezigns)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DeerWomanDezigns_DeerWomanDezigns&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=DeerWomanDezigns_DeerWomanDezigns)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DeerWomanDezigns_DeerWomanDezigns&metric=code_smells)](https://sonarcloud.io/dashboard?id=DeerWomanDezigns_DeerWomanDezigns)
+[![CodeQL](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/codeql-analysis.yml)
+
+[![tf-apply](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/tf-apply.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/tf-apply.yml)
+[![build-backend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-backend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-backend.yml)
+[![build-frontend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-frontend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-frontend.yml)
+[![deploy-app](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-app.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-app.yml)
+
 # DeerWomanDezigns
+This repository hosts the source code for the administration website for the [DeerWomanDezigns Etsy shop](https://www.etsy.com/shop/DeerwomanDezigns).
 
-## Frontend
-This site's front end is a React app.
+## Languages
+The frontend is a react app hosted on an nginx server while the backend is written in golang.
 
-### Running
+## Infrastructure
+All data is stored in AWS DynamoDB and the servers are hosted in AWS Lightsail.
 
-## Backend
-This site's backend is written in Go.
+## CI/CD
+All integration and deployments are handled through GitHub Actions.
 
-### Running
-1. Navigate to the api folder
-2. Run `go run main.go`
+## Running the App
+
+### Using Docker
+1. Clone the repository
+2. Install Docker
+3. Ensure the Docker agent is running locally
+4. Navigate to the root directory of the repository
+5. Run `docker-compose up`
+6. Navigate to http://localhost and ensure the site loads
