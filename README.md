@@ -1,6 +1,16 @@
 <img src="web/src/assets/logo.png" alt="logo" width="200"/>
 <br /><br />
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=DeerWomanDezigns_DeerWomanDezigns&metric=bugs)](https://sonarcloud.io/dashboard?id=DeerWomanDezigns_DeerWomanDezigns)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=DeerWomanDezigns_DeerWomanDezigns&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=DeerWomanDezigns_DeerWomanDezigns)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DeerWomanDezigns_DeerWomanDezigns&metric=code_smells)](https://sonarcloud.io/dashboard?id=DeerWomanDezigns_DeerWomanDezigns)
+[![CodeQL](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/codeql-analysis.yml)
+
+[![tf-apply](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/tf-apply.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/tf-apply.yml)
+[![build-backend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-backend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-backend.yml)
+[![build-frontend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-frontend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-frontend.yml)
+[![deploy-app](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-app.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-app.yml)
+
 # DeerWomanDezigns
 This repository hosts the source code for the administration website for the [DeerWomanDezigns Etsy shop](https://www.etsy.com/shop/DeerwomanDezigns).
 
