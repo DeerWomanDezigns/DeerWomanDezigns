@@ -1,6 +1,6 @@
 resource "aws_lightsail_instance" "lightsail_instance_backend" {
   name              = "dwd_backend"
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-2a"
   blueprint_id      = "amazon_linux_2"
   bundle_id         = "nano_2_0"
   key_pair_name     = aws_lightsail_key_pair.lightsail_key_pair_backend.id
@@ -9,7 +9,7 @@ resource "aws_lightsail_instance" "lightsail_instance_backend" {
 
 resource "aws_lightsail_instance" "lightsail_instance_frontend" {
   name              = "dwd_frontend"
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-2a"
   blueprint_id      = "amazon_linux_2"
   bundle_id         = "nano_2_0"
   key_pair_name     = aws_lightsail_key_pair.lightsail_key_pair_frontend.id
