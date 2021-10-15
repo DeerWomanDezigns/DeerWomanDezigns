@@ -10,6 +10,9 @@ The frontend is a react app hosted on an nginx server while the backend is writt
 ## Infrastructure
 All data is stored in AWS DynamoDB and the servers are hosted in AWS Lightsail.
 
+## CI/CD
+All integration and deployments are handled through GitHub Actions.
+
 ## Running the App
 
 ### Using Docker
