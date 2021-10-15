@@ -29,6 +29,9 @@ function Navigation() {
           </Nav>
         </Navbar.Collapse>
         </Nav>
+        <Form inline>
+           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          </Form>
         </Container>
         </Navbar>
         </div>  
