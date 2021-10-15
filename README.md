@@ -9,7 +9,8 @@
 [![tf-apply](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/tf-apply.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/tf-apply.yml)
 [![build-backend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-backend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-backend.yml)
 [![build-frontend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-frontend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/build-frontend.yml)
-[![deploy-app](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-app.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-app.yml)
+[![deploy-backend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-backend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-backend.yml)
+[![deploy-frontend](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-frontend.yml/badge.svg)](https://github.com/DeerWomanDezigns/DeerWomanDezigns/actions/workflows/deploy-frontend.yml)
 
 # DeerWomanDezigns
 This repository hosts the source code for the administration website for the [DeerWomanDezigns Etsy shop](https://www.etsy.com/shop/DeerwomanDezigns).
