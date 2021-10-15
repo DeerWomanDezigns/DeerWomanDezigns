@@ -69,7 +69,7 @@ jobs:
           key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
           script: |
-            oldRunning=$(docker ps -q)
+            oldRunning=$(docker ps -f 'name=dwd_backend' -q)
             if [ -n $oldRunning ] 
             then
               docker stop $oldRunning
@@ -77,7 +77,7 @@ jobs:
             else
               echo "no running container"
             fi
-            oldImage=$(docker images -q)
+            oldImage=$(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
             if [ -n $oldImage ] 
             then
               docker rmi $oldImage
@@ -102,7 +102,7 @@ jobs:
           key: ${{ secrets.SSH_FRONTEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_FRONTEND_PASSPHRASE }}
           script: |
-            oldRunning=$(docker ps -q)
+            oldRunning=$(docker ps -f 'name=dwd_frontend' -q)
             if [ -n $oldRunning ] 
             then
               docker stop $oldRunning
@@ -110,7 +110,7 @@ jobs:
             else
               echo "no running container"
             fi
-            oldImage=$(docker images -q)
+            oldImage=$(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
             if [ -n $oldImage ] 
             then
               docker rmi $oldImage
@@ -120,4 +120,4 @@ jobs:
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_frontend:${branch##*/}
             image=$(docker images -q)
-            docker run -dp 80:80 --name dwd_frontend $image
+            docker run -d --name dwd_frontend -e "VIRTUAL_HOST=deerwoman-dezigns.com" "LETSENCRYPT_HOST=deerwoman-dezigns.com" $image
