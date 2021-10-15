@@ -13,6 +13,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 	"github.com/guregu/dynamo"
 
@@ -72,7 +73,11 @@ func main() {
 
 	log.Println("Successfully connected to database")
 
-	r.Run(fmt.Sprintf(":%v", config.Config.ServerPort))
+	if config.Config.ServerPort == 443 {
+		autotls.Run(r, "deerwoman-dezigns.com")
+	} else {
+		r.Run(fmt.Sprintf(":%v", config.Config.ServerPort))
+	}
 }
 
 func auth() gin.HandlerFunc {

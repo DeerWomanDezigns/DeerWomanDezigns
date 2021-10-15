@@ -16,7 +16,7 @@ RUN go get -u github.com/Masterminds/glide/...
 WORKDIR /usr/src/app
 COPY . .
 
-EXPOSE 10000
+EXPOSE 443
 RUN go build
 
 CMD ./deer-woman-dezigns
