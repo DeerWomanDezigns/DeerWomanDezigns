@@ -70,9 +70,20 @@ jobs:
           passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
           script: |
             oldRunning=$(docker ps -q)
-            [ -n $oldRunning ] && docker stop dwd_backend && docker rm dwd_backend || echo "no running container"
+            if [ -n $oldRunning ] 
+            then
+              docker stop $oldRunning
+              docker rm $oldRunning 
+            else
+              echo "no running container"
+            fi
             oldImage=$(docker images -q)
-            [ -n $oldImage ] && docker rmi $oldImage || echo "no old image"
+            if [ -n $oldImage ] 
+            then
+              docker rmi $oldImage
+            else
+              echo "no old image"
+            fi
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
             image=$(docker images -q)
@@ -92,9 +103,20 @@ jobs:
           passphrase: ${{ secrets.SSH_FRONTEND_PASSPHRASE }}
           script: |
             oldRunning=$(docker ps -q)
-            [ -n $oldRunning ] && docker stop dwd_frontend && docker rm dwd_frontend || echo "no running container"
+            if [ -n $oldRunning ] 
+            then
+              docker stop $oldRunning
+              docker rm $oldRunning 
+            else
+              echo "no running container"
+            fi
             oldImage=$(docker images -q)
-            [ -n $oldImage ] && docker rmi $oldImage || echo "no old image"
+            if [ -n $oldImage ] 
+            then
+              docker rmi $oldImage
+            else
+              echo "no old image"
+            fi
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_frontend:${branch##*/}
             image=$(docker images -q)
