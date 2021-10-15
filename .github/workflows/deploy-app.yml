@@ -64,10 +64,10 @@ jobs:
       - name: SSH & Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_AWS_SERVER_IP }}
+          host: ${{ secrets.SSH_AWS_BACKEND_SERVER_IP }}
           username: ${{ secrets.SSH_SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
           script: |
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${GITHUB_REF##*/}
             image=$(docker images -q)
@@ -81,10 +81,10 @@ jobs:
       - name: SSH & Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_AWS_SERVER_IP }}
+          host: ${{ secrets.SSH_AWS_FRONTEND_SERVER_IP }}
           username: ${{ secrets.SSH_SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          key: ${{ secrets.SSH_FRONTEND_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_FRONTEND_PASSPHRASE }}
           script: |
             docker pull ghcr.io/deerwomandezigns/dwd_frontend:${GITHUB_REF##*/}
             image=$(docker images -q)
