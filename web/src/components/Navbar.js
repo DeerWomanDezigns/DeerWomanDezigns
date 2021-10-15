@@ -1,20 +1,33 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Image from 'react-bootstrap/Image';
-import logo from '../assets/logo.png';
-import './navbar.css';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import React, { useState } from "react";
 
 function Navigation() {
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
     return (
       <>
             <div>
-        <Navbar bg="white" variant="light">
+        <Navbar collapseOnSelect bg="dark" expand="md" className="mb-3" variant="dark">
         <Container>
-            <Image src={logo} className="logo"/>
         <Nav className="me-auto">
-        <Nav.Link>Sign-In</Nav.Link>
-        <Nav.Link>Popular Items</Nav.Link>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Nav>
+            <Nav.Link>Home</Nav.Link>
+            <Nav.Link>Orders</Nav.Link>
+            <Nav.Link onClick={handleShow}>Sign In</Nav.Link>
+            <Nav.Link>Users</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
         </Nav>
         </Container>
         </Navbar>
