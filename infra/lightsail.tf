@@ -14,6 +14,10 @@ resource "aws_lightsail_instance" "lightsail_instance_frontend" {
   key_pair_name     = aws_lightsail_key_pair.lightsail_key_pair_frontend.id
 }
 
+resource "aws_lightsail_domain" "lightsail_domain_frontend" {
+  domain_name = "deerwoman-dezigns.com"
+}
+
 resource "aws_lightsail_key_pair" "lightsail_key_pair_backend" {
   name       = "backend_ssh"
   public_key = file("${path.module}/keys/backend.pub")
