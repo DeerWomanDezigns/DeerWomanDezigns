@@ -34,6 +34,38 @@ function Navigation() {
           </Form>
         </Container>
         </Navbar>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Sign In</Modal.Title>
+            </Modal.Header>
+            <br />
+            <Container>
+            <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Username or Email</Form.Label>
+            <Form.Control type="username" placeholder="Enter username" />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+            <Form.Text className="text-muted">
+            If password is forgotten please contact site administrator.
+            </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            </Form.Group>
+            </Form>
+        </Container>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Sign In
+            </Button>
+          </Modal.Footer>
+        </Modal>
         </div>  
       </>
     );
