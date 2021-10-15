@@ -68,6 +68,7 @@ jobs:
           username: ${{ secrets.SSH_SERVER_USER }}
           key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
+          script_stop: true
           script: |
             echo ghcr.io/deerwomandezigns/dwd_backend:${GITHUB_REF##*/}
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${GITHUB_REF##*/}
@@ -86,6 +87,7 @@ jobs:
           username: ${{ secrets.SSH_SERVER_USER }}
           key: ${{ secrets.SSH_FRONTEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_FRONTEND_PASSPHRASE }}
+          script_stop: true
           script: |
             echo ghcr.io/deerwomandezigns/dwd_frontend:${GITHUB_REF##*/}
             docker pull ghcr.io/deerwomandezigns/dwd_frontend:${GITHUB_REF##*/}
