@@ -25,6 +25,26 @@ info:
   title: Deer Woman Dezigns Swagger API
   version: "1.0"
 paths:
+  /etsy/callback:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Handles callback from Etsy
+  /etsy/login:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Initiates authentication to Etsy
   /users:
     get:
       produces:
