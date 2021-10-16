@@ -5,8 +5,6 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { BrowserRouter, Route} from 'react-router-dom';
-import App from '../App';
 import UsersPage from './UsersPage';
 import React, { useState } from "react";
 
@@ -24,16 +22,16 @@ function Navigation() {
             <Nav className="me-auto">
               <Navbar.Toggle />
               <Navbar.Collapse className="justify-content-end">
-                <Nav>
+                <Nav className="me-auto">
                   <Nav.Link>Home</Nav.Link>
                   <Nav.Link>Orders</Nav.Link>
                   <Nav.Link onClick={handleShow}>Sign In</Nav.Link>
-                  <Nav.Link to="/UsersPage">Users</Nav.Link>
+                  <Nav.Link to="/users">Users</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Nav>
             <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <FormControl type="text" placeholder="Search" className="mr-sm-4" />
             </Form>
           </Container>
         </Navbar>
@@ -69,8 +67,6 @@ function Navigation() {
             </Button>
           </Modal.Footer>
         </Modal>
-        <Route path="/" exact  component={App} />
-          <Route path="/UsersPage" exact  component={UsersPage} />
       </div>
     </>
   );

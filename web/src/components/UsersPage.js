@@ -1,14 +1,13 @@
 import Container from 'react-bootstrap/Container';
 import Users from './Users';
-import React from 'react';
+import React, { Component } from 'react';
 
-const UsersPage = () => {
-    return (
-      <Container>
-        <Users />
-      </Container> 
-    )
+export default class UsersPage extends Component {
+    render() {
+        return (
+          <Container>
+          <Users />
+        </Container> 
+        );
+    }
 }
-  
-
-export default UsersPage;
