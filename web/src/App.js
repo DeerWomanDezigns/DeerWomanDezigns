@@ -5,6 +5,7 @@ import Image from 'react-bootstrap/Image';
 import React from 'react';
 import Navigation from './components/Navigation';
 import Backdrop from './assets/Back.jpg';
+import UsersPage from './components/UsersPage';
 
 var sectionStyle = {
   backgroundImage: `url(${Backdrop})`
@@ -16,6 +17,7 @@ function App() {
       <div className="body">
         <Navigation />
         <Image src={logo} className="logoMain" />
+        <UsersPage />
       </div>
     </div>
   );

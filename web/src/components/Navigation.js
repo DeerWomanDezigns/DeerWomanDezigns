@@ -21,16 +21,16 @@ function Navigation() {
             <Nav className="me-auto">
               <Navbar.Toggle />
               <Navbar.Collapse className="justify-content-end">
-                <Nav>
+                <Nav className="me-auto">
                   <Nav.Link>Home</Nav.Link>
                   <Nav.Link>Orders</Nav.Link>
                   <Nav.Link onClick={handleShow}>Sign In</Nav.Link>
-                  <Nav.Link>Users</Nav.Link>
+                  <Nav.Link to="/users">Users</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Nav>
             <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <FormControl type="text" placeholder="Search" className="mr-sm-4" />
             </Form>
           </Container>
         </Navbar>
