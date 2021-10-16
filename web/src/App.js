@@ -6,6 +6,7 @@ import React from 'react';
 import Navigation from './components/Navigation';
 import Backdrop from './assets/Back.jpg';
 import UsersPage from './components/UsersPage';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 var sectionStyle = {
   backgroundImage: `url(${Backdrop})`
@@ -15,9 +16,14 @@ function App() {
   return (
     <div style={sectionStyle}>
       <div className="body">
-        <Navigation />
-        <Image src={logo} className="logoMain" />
-        <UsersPage />
+        <Router>
+          <Navigation />
+          <Image src={logo} className="logoMain" />
+          <UsersPage />
+          <Switch>
+            <Route to="/UsersPage" />
+          </Switch>
+        </Router>
       </div>
     </div>
   );

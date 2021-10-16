@@ -25,7 +25,7 @@ function Navigation() {
                   <Nav.Link>Home</Nav.Link>
                   <Nav.Link>Orders</Nav.Link>
                   <Nav.Link onClick={handleShow}>Sign In</Nav.Link>
-                  <Nav.Link to="/users">Users</Nav.Link>
+                  <Nav.Link to="/UsersPage">Users</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Nav>
