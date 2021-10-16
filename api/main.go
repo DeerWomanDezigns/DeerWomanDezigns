@@ -64,7 +64,7 @@ func main() {
 	}
 
 	sess := session.Must(session.NewSession())
-	config.Config.DB = dynamo.New(sess, &aws.Config{Region: aws.String("us-east-2")})
+	config.Config.DB = dynamo.New(sess, &aws.Config{Region: aws.String(`us-east-2`)})
 
 	log.Println("Successfully connected to database")
 
