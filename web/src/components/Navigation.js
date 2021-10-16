@@ -5,6 +5,9 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { BrowserRouter, Route} from 'react-router-dom';
+import App from '../App';
+import UsersPage from './UsersPage';
 import React, { useState } from "react";
 
 function Navigation() {
@@ -25,7 +28,7 @@ function Navigation() {
                   <Nav.Link>Home</Nav.Link>
                   <Nav.Link>Orders</Nav.Link>
                   <Nav.Link onClick={handleShow}>Sign In</Nav.Link>
-                  <Nav.Link>Users</Nav.Link>
+                  <Nav.Link to="/UsersPage">Users</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Nav>
@@ -66,6 +69,8 @@ function Navigation() {
             </Button>
           </Modal.Footer>
         </Modal>
+        <Route path="/" exact  component={App} />
+          <Route path="/UsersPage" exact  component={UsersPage} />
       </div>
     </>
   );
