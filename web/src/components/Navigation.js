@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import UsersPage from './UsersPage';
 import React, { useState } from "react";
 
 function Navigation() {
