@@ -29,6 +29,8 @@ func LoadConfig(configPaths ...string) error {
 	v.AutomaticEnv()
 
 	v.SetDefault("server_port", 80)
+	v.SetDefault("etsy_request_url", "https://www.etsy.com/oauth/connect")
+	v.SetDefault("etsy_access_token_url", "https://openapi.etsy.com/v2/oauth/token")
 	v.SetDefault("api_key", GetAwsSecretKey("dwd/apiKey", "API_Key"))
 	v.SetDefault("etsy_client_id", GetAwsSecretKey("dwd/etsyKeystring", "Etsy_Keystring"))
 
