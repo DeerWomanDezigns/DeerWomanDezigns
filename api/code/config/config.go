@@ -11,16 +11,9 @@ import (
 var Config appConfig
 
 type appConfig struct {
-	// the shared DB ORM object
-	DB *dynamo.DB
-	// the server port. Defaults to 80
-	ServerPort int `mapstructure:"server_port"`
-	// the API key needed to authorize to API. required.
-	ApiKey string `mapstructure:"api_key"`
-	// Certificate file for HTTPS
-	CertFile string `mapstructure:"cert_file"`
-	// Private key file for HTTPS
-	KeyFile string `mapstructure:"key_file"`
+	DB         *dynamo.DB
+	ServerPort int    `mapstructure:"server_port"`
+	ApiKey     string `mapstructure:"api_key"`
 }
 
 // LoadConfig loads config from files
