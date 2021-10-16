@@ -14,6 +14,7 @@ require (
 	github.com/guregu/dynamo v1.11.0
 	github.com/kr/pty v1.1.5 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20170819232839-0fbfe93532da // indirect
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14

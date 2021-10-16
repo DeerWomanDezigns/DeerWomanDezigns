@@ -61,6 +61,8 @@ func main() {
 		v1.POST("/users", apis.AddUser)
 		v1.PUT("/users/:id", apis.ModifyUser)
 		v1.DELETE("/users/:id", apis.DeleteUser)
+		v1.GET("/etsy/login", apis.EtsyLogin)
+		v1.GET("/etsy/callback", apis.EtsyCallback)
 	}
 
 	sess := session.Must(session.NewSession())
