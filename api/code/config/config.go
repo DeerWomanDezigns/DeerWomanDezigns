@@ -28,7 +28,7 @@ func LoadConfig(configPaths ...string) error {
 	v.AutomaticEnv()
 
 	v.SetDefault("server_port", 80)
-	v.SetDefault("api_key", GetApiKey())
+	v.SetDefault("api_key", GetAwsSecretKey("dwd/apiKey", "API_Key"))
 
 	for _, path := range configPaths {
 		v.AddConfigPath(path)
@@ -40,9 +40,8 @@ func LoadConfig(configPaths ...string) error {
 	return v.Unmarshal(&Config)
 }
 
-func GetApiKey() string {
-	secretName := "dwd/apiKey"
-	var secret string
+func GetAwsSecretKey(secretName string, key string) string {
+	var respSecrets string
 	if sess, serr := session.NewSession(); serr != nil {
 		fmt.Println("error creating secretsmanager session", serr.Error())
 	} else {
@@ -70,14 +69,14 @@ func GetApiKey() string {
 				fmt.Println(err.Error())
 			}
 		}
-		secret = *result.SecretString
+		respSecrets = *result.SecretString
 	}
 
-	type KeySecret struct {
-		ApiKey string `json:"API_Key"`
+	var secrets map[string]json.RawMessage
+	json.Unmarshal([]byte(respSecrets), &secrets)
+	var secret string
+	if perr := json.Unmarshal(secrets[key], &secret); perr != nil {
+		fmt.Println("Parsing error for response", perr.Error())
 	}
-
-	var key KeySecret
-	json.Unmarshal([]byte(secret), &key)
-	return key.ApiKey
+	return secret
 }
