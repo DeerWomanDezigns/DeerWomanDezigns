@@ -13,7 +13,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var CodeVerifier, _ = cv.CreateCodeVerifier()
+var etsyOauthConfig = &oauth2.Config{
+	RedirectURL: "https://deerwoman-dezigns/api/v1/etsy/callback",
+	ClientID:    config.Config.EtsyClientId,
+	Scopes:      []string{"shops_r"},
+	Endpoint: oauth2.Endpoint{
+		AuthURL:  config.Config.EtsyRequestUrl,
+		TokenURL: config.Config.EtsyAccessTokenUrl,
+	},
+}
 
 type EtsyService struct {
 	EtsyOauthConfig oauth2.Config
