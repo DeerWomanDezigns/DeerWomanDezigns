@@ -53,7 +53,7 @@ jobs:
               --env "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" \
               --env "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
               --env "AWS_DEFAULT_REGION=us-east-2" \
-              --env "VIRTUAL_HOST=api.deerwoman-dezigns.com" \
-              --env "LETSENCRYPT_HOST=api.deerwoman-dezigns.com" \
+              --env "VIRTUAL_HOST=deerwoman-dezigns.com,api.deerwoman-dezigns.com" \
+              --env "LETSENCRYPT_HOST=deerwoman-dezigns.com,api.deerwoman-dezigns.com" \
               --name dwd_backend \
               $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
