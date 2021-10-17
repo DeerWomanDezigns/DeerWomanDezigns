@@ -6,32 +6,40 @@ import (
 	"math/rand"
 	"net/http"
 
+	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"golang.org/x/oauth2"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/config"
 	"github.com/gin-gonic/gin"
 )
 
-var etsyOauthConfig = &oauth2.Config{
-	RedirectURL: "https://deerwoman-dezigns/api/v1/etsy/callback",
-	ClientID:    config.Config.EtsyClientId,
-	Scopes:      []string{"shops_r"},
-	Endpoint: oauth2.Endpoint{
-		AuthURL:  "https://www.etsy.com/oauth/connect",
-		TokenURL: "https://openapi.etsy.com/v2/oauth/token",
-	},
+var CodeVerifier, _ = cv.CreateCodeVerifier()
+
+type EtsyService struct {
+	EtsyOauthConfig oauth2.Config
 }
 
-type EtsyService struct{}
-
 func NewEtsyService() *EtsyService {
-	return &EtsyService{}
+	return &EtsyService{
+		EtsyOauthConfig: oauth2.Config{
+			RedirectURL: "https://backend.deerwoman-dezigns/api/v1/etsy/callback",
+			ClientID:    config.Config.EtsyClientId,
+			Scopes:      []string{"shops_r"},
+			Endpoint: oauth2.Endpoint{
+				AuthURL:  "https://www.etsy.com/oauth/connect",
+				TokenURL: "https://openapi.etsy.com/v2/oauth/token",
+			},
+		},
+	}
 }
 
 func (s *EtsyService) Login(c *gin.Context) {
 
 	stateCookie := s.GenerateStateCookie(c)
-	redirectUrl := etsyOauthConfig.AuthCodeURL(stateCookie)
+	codeChallenge := CodeVerifier.CodeChallengeS256()
+	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
+	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
+	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
 	c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
 	return
 }
@@ -50,7 +58,7 @@ func (s *EtsyService) HandleCallback(c *gin.Context) string {
 }
 
 func (s *EtsyService) GetAuthToken(c *gin.Context, code string) string {
-	if token, err := etsyOauthConfig.Exchange(c, code); err != nil {
+	if token, err := s.EtsyOauthConfig.Exchange(c, code); err != nil {
 		log.Println("error retrieving oath token", err)
 		return ""
 	} else {
