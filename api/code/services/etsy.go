@@ -70,7 +70,7 @@ func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
 	b := make([]byte, 16)
 	rand.Read(b)
 	state := base64.URLEncoding.EncodeToString(b)
-	c.SetCookie("oauthstate", state, 60*60*12, "/", "etsy.com", true, false)
+	c.SetCookie("oauthstate", state, 60*60*12, "/", "backend.deerwoman-dezigns.com", true, false)
 
 	return state
 }
