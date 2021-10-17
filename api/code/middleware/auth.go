@@ -14,6 +14,7 @@ func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.FullPath() == "/api/v1/etsy/callback" {
 			c.Next()
+			return
 		}
 		authHeader := c.GetHeader("Authorization")
 		if len(authHeader) == 0 {
