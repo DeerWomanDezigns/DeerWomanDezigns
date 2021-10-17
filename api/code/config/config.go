@@ -13,7 +13,7 @@ var Config appConfig
 type appConfig struct {
 	// the shared DB ORM object
 	DB *dynamo.DB
-	// the server port. Defaults to 8080
+	// the server port. Defaults to 80
 	ServerPort int `mapstructure:"server_port"`
 	// the API key needed to authorize to API. required.
 	ApiKey string `mapstructure:"api_key"`
@@ -30,7 +30,7 @@ func LoadConfig(configPaths ...string) error {
 	v.SetConfigType("yaml")
 	v.AutomaticEnv()
 
-	v.SetDefault("server_port", 8080)
+	v.SetDefault("server_port", 80)
 
 	for _, path := range configPaths {
 		v.AddConfigPath(path)

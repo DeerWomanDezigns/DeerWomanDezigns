@@ -45,22 +45,15 @@ jobs:
           key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
           script: |
-            oldRunning=$(docker ps -f 'name=dwd_backend' -q)
-            if [ -n $oldRunning ] 
-            then
-              docker stop $oldRunning
-              docker rm $oldRunning 
-            else
-              echo "no running container"
-            fi
-            oldImage=$(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
-            if [ -n $oldImage ] 
-            then
-              docker rmi $oldImage
-            else
-              echo "no old image"
-            fi
+            docker rm -f $(docker ps -f 'name=dwd_backend' -q)
+            docker rmi $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
-            image=$(docker images -q)
-            docker run -d -p 443:443 -p 80:80 -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_DEFAULT_REGION='us-east-2' --name dwd_backend $image
+            docker run --detach \
+              --env "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+              --env "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+              --env "AWS_DEFAULT_REGION=us-east-2" \
+              --env "VIRTUAL_HOST=backend.deerwoman-dezigns.com" \
+              --env "LETSENCRYPT_HOST=backend.deerwoman-dezigns.com" \
+              --name dwd_backend \
+              $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)

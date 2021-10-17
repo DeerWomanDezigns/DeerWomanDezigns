@@ -17,7 +17,6 @@ WORKDIR /usr/src/app
 COPY . .
 
 EXPOSE 80
-EXPOSE 443
 RUN go build
 
 CMD ./deer-woman-dezigns
