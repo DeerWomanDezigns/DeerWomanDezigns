@@ -49,7 +49,6 @@ jobs:
             docker rmi $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
-            image=$(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
             docker run --detach \
               --env "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" \
               --env "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
@@ -57,4 +56,4 @@ jobs:
               --env "VIRTUAL_HOST=api.deerwoman-dezigns.com" \
               --env "LETSENCRYPT_HOST=api.deerwoman-dezigns.com" \
               --name dwd_backend \
-              $image
+              $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)

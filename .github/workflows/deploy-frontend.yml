@@ -49,9 +49,8 @@ jobs:
             docker rmi $(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_frontend:${branch##*/}
-            image=$(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
             docker run --detach \
               --env "VIRTUAL_HOST=deerwoman-dezigns.com" \
               --env "LETSENCRYPT_HOST=deerwoman-dezigns.com" \
               --name dwd_frontend \
-              $image
+              $(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
