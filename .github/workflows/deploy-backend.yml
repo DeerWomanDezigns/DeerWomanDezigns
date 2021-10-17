@@ -45,21 +45,8 @@ jobs:
           key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
           script: |
-            oldRunning=$(docker ps -f 'name=dwd_backend' -q)
-            if [ -n $oldRunning ] 
-            then
-              docker stop $oldRunning
-              docker rm $oldRunning 
-            else
-              echo "no running container"
-            fi
-            oldImage=$(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
-            if [ -n $oldImage ] 
-            then
-              docker rmi $oldImage
-            else
-              echo "no old image"
-            fi
+            docker rm -f $(docker ps -f 'name=dwd_backend' -q)
+            docker rmi $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
             image=$(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
