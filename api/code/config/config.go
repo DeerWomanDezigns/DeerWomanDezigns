@@ -16,12 +16,10 @@ import (
 var Config appConfig
 
 type appConfig struct {
-	DB                 *dynamo.DB
-	ServerPort         int    `mapstructure:"server_port"`
-	ApiKey             string `mapstructure:"api_key"`
-	EtsyRequestUrl     string `mapstructure:"etsy_request_url"`
-	EtsyAccessTokenUrl string `mapstructure:"etsy_access_token_url"`
-	EtsyClientId       string `mapstructure:"etsy_client_id"`
+	DB           *dynamo.DB
+	ServerPort   int    `mapstructure:"server_port"`
+	ApiKey       string `mapstructure:"api_key"`
+	EtsyClientId string `mapstructure:"etsy_client_id"`
 }
 
 func LoadConfig(configPaths ...string) error {
@@ -31,8 +29,6 @@ func LoadConfig(configPaths ...string) error {
 	v.AutomaticEnv()
 
 	v.SetDefault("server_port", 80)
-	v.SetDefault("etsy_request_url", "https://www.etsy.com/oauth/connect")
-	v.SetDefault("etsy_access_token_url", "https://openapi.etsy.com/v2/oauth/token")
 	v.SetDefault("api_key", GetAwsSecretKey("dwd/apiKey", "API_Key"))
 	v.SetDefault("etsy_client_id", GetAwsSecretKey("dwd/etsyKeystring", "Etsy_Keystring"))
 

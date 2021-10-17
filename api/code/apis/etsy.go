@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/services"
@@ -28,5 +29,6 @@ func EtsyLogin(c *gin.Context) {
 func EtsyCallback(c *gin.Context) {
 	s := services.NewEtsyService()
 	token := s.HandleCallback(c)
-	c.JSON(http.StatusOK, token)
+	log.Println("received token", token)
+	//c.JSON(http.StatusOK, token)
 }
