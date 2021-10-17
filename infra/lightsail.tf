@@ -4,7 +4,7 @@ resource "aws_lightsail_instance" "lightsail_instance_backend" {
   blueprint_id      = "amazon_linux_2"
   bundle_id         = "nano_2_0"
   key_pair_name     = aws_lightsail_key_pair.lightsail_key_pair_backend.id
-  user_data         = "${file("${path.module}/scripts/backend_instance_setup.sh")}"
+  user_data         = "${file("${path.module}/scripts/instance_setup.sh")}"
 }
 
 resource "aws_lightsail_instance" "lightsail_instance_frontend" {
@@ -13,7 +13,7 @@ resource "aws_lightsail_instance" "lightsail_instance_frontend" {
   blueprint_id      = "amazon_linux_2"
   bundle_id         = "nano_2_0"
   key_pair_name     = aws_lightsail_key_pair.lightsail_key_pair_frontend.id
-  user_data         = "${file("${path.module}/scripts/frontend_instance_setup.sh")}"
+  user_data         = "${file("${path.module}/scripts/instance_setup.sh")}"
 }
 
 resource "aws_lightsail_key_pair" "lightsail_key_pair_backend" {
