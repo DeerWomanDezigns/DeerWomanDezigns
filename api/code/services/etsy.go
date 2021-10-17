@@ -1,17 +1,26 @@
 package services
 
 import (
-	"fmt"
+	"encoding/base64"
+	"log"
 	"math/rand"
 	"net/http"
-	"strings"
-	"time"
+
+	"golang.org/x/oauth2"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/config"
-	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
+	"github.com/gin-gonic/gin"
 )
 
-var CodeVerifier, _ = cv.CreateCodeVerifier()
+var etsyOauthConfig = &oauth2.Config{
+	RedirectURL: "https://deerwoman-dezigns/api/v1/etsy/callback",
+	ClientID:    config.Config.EtsyClientId,
+	Scopes:      []string{"shops_r"},
+	Endpoint: oauth2.Endpoint{
+		AuthURL:  config.Config.EtsyRequestUrl,
+		TokenURL: config.Config.EtsyAccessTokenUrl,
+	},
+}
 
 type EtsyService struct{}
 
@@ -19,57 +28,41 @@ func NewEtsyService() *EtsyService {
 	return &EtsyService{}
 }
 
-func (s *EtsyService) Login(csrfToken string) {
-	if req, err := http.NewRequest("GET", config.Config.EtsyRequestUrl, nil); err != nil {
-		fmt.Println("Error forming Etsy login request", err)
+func (s *EtsyService) Login(c *gin.Context) {
+
+	stateCookie := s.GenerateStateCookie(c)
+	redirectUrl := etsyOauthConfig.AuthCodeURL(stateCookie)
+	c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
+	return
+}
+
+func (s *EtsyService) HandleCallback(c *gin.Context) string {
+	tokenState, _ := c.Cookie("oauthstate")
+
+	if reqState := c.Param("token"); reqState != tokenState {
+		log.Println("invalid or missing state token")
+		return ""
+	}
+	code := c.Param("code")
+	token := s.GetAuthToken(c, code)
+
+	return token
+}
+
+func (s *EtsyService) GetAuthToken(c *gin.Context, code string) string {
+	if token, err := etsyOauthConfig.Exchange(c, code); err != nil {
+		log.Println("error retrieving oath token", err)
+		return ""
 	} else {
-		q := req.URL.Query()
-		q.Add("response_type", "code")
-		q.Add("client_id", config.Config.EtsyClientId)
-		q.Add("redirect_uri", "https://deerwoman-dezigns/api/v1/etsy/callback")
-		q.Add("scope", "shops_r")
-		q.Add("state", "")
-		q.Add("code_challenge", CodeVerifier.CodeChallengeS256())
-		q.Add("code_challenge_method", "S256")
-		req.URL.RawQuery = q.Encode()
-		fmt.Println(req.URL.String())
-
-		if resp, err := http.Get(req.URL.String()); err != nil {
-			fmt.Println("Error getting Etsy login", err)
-		} else {
-			fmt.Println(resp)
-		}
+		return token.AccessToken
 	}
-
-	return
 }
 
-func (s *EtsyService) HandleCallback(code string) {
+func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
+	b := make([]byte, 16)
+	rand.Read(b)
+	state := base64.URLEncoding.EncodeToString(b)
+	c.SetCookie("oauthstate", state, 60*60*12, "/", "etsy.com", true, false)
 
-	return
-}
-
-func (s *EtsyService) RandState(n int) string {
-	var src = rand.NewSource(time.Now().UnixNano())
-	const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	const (
-		letterIdxBits = 6
-		letterIdxMask = 1<<letterIdxBits - 1
-		letterIdxMax  = 63 / letterIdxBits
-	)
-	sb := strings.Builder{}
-	sb.Grow(n)
-	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
-		if remain == 0 {
-			cache, remain = src.Int63(), letterIdxMax
-		}
-		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
-			sb.WriteByte(letterBytes[idx])
-			i--
-		}
-		cache >>= letterIdxBits
-		remain--
-	}
-
-	return sb.String()
+	return state
 }

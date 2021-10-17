@@ -15,10 +15,7 @@ import (
 // @Security ApiKeyAuth
 func EtsyLogin(c *gin.Context) {
 	s := services.NewEtsyService()
-	csrfToken := s.RandState(32)
-	maxAge := 12 * 60 * 60
-	c.SetCookie("csrfCookie", csrfToken, maxAge, "/", "deerwoman-dezigns.com", true, false)
-	s.Login(csrfToken)
+	s.Login(c)
 	c.JSON(http.StatusOK, "")
 }
 
@@ -30,12 +27,6 @@ func EtsyLogin(c *gin.Context) {
 // @Security ApiKeyAuth
 func EtsyCallback(c *gin.Context) {
 	s := services.NewEtsyService()
-	state := c.Query("state")
-	code := c.Query("code")
-	if csrfToken, err := c.Cookie("csrfCookie"); err != nil || csrfToken != state {
-		c.JSON(http.StatusUnauthorized, "CSRF token invalid or expired")
-	} else {
-		s.HandleCallback(code)
-		c.JSON(http.StatusOK, "")
-	}
+	token := s.HandleCallback(c)
+	c.JSON(http.StatusOK, token)
 }
