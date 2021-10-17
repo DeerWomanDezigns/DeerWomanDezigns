@@ -50,4 +50,11 @@ jobs:
             branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
             image=$(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
-            docker run -d -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_DEFAULT_REGION='us-east-2' -e "VIRTUAL_HOST=api.deerwoman-dezigns.com" -e "LETSENCRYPT_HOST=api.deerwoman-dezigns.com" --name dwd_backend $image
+            docker run --detach \
+              --env "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+              --env "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+              --env "AWS_DEFAULT_REGION=us-east-2" \
+              --env "VIRTUAL_HOST=api.deerwoman-dezigns.com" \
+              --env "LETSENCRYPT_HOST=api.deerwoman-dezigns.com" \
+              --name dwd_backend \
+              $image
