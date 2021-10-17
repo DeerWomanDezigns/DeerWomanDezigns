@@ -22,7 +22,7 @@ type EtsyService struct {
 func NewEtsyService() *EtsyService {
 	return &EtsyService{
 		EtsyOauthConfig: oauth2.Config{
-			RedirectURL: "https://backend.deerwoman-dezigns/api/v1/etsy/callback",
+			RedirectURL: "https://backend.deerwoman-dezigns.com/api/v1/etsy/callback",
 			ClientID:    config.Config.EtsyClientId,
 			Scopes:      []string{"shops_r"},
 			Endpoint: oauth2.Endpoint{
