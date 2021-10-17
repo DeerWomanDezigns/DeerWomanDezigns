@@ -2,7 +2,6 @@ package apis
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/services"
 	"github.com/gin-gonic/gin"
@@ -17,7 +16,7 @@ import (
 func EtsyLogin(c *gin.Context) {
 	s := services.NewEtsyService()
 	s.Login(c)
-	c.JSON(http.StatusOK, "")
+	//c.JSON(http.StatusOK, "")
 }
 
 // EtsyCallback godoc
