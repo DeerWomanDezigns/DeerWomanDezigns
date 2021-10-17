@@ -47,11 +47,11 @@ func (s *EtsyService) Login(c *gin.Context) {
 func (s *EtsyService) HandleCallback(c *gin.Context) string {
 	tokenState, _ := c.Cookie("oauthstate")
 
-	if reqState := c.Param("state"); reqState != tokenState {
+	if reqState := c.Query("state"); reqState == "" || reqState != tokenState {
 		log.Println("invalid or missing state token")
-		return ""
+		return "invalid or missing state token"
 	}
-	code := c.Param("code")
+	code := c.Query("code")
 	token := s.GetAuthToken(c, code)
 
 	return token
