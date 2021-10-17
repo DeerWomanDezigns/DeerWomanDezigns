@@ -18,8 +18,8 @@ var etsyOauthConfig = &oauth2.Config{
 	ClientID:    config.Config.EtsyClientId,
 	Scopes:      []string{"shops_r"},
 	Endpoint: oauth2.Endpoint{
-		AuthURL:  config.Config.EtsyRequestUrl,
-		TokenURL: config.Config.EtsyAccessTokenUrl,
+		AuthURL:  "https://www.etsy.com/oauth/connect",
+		TokenURL: "https://openapi.etsy.com/v2/oauth/token",
 	},
 }
 
