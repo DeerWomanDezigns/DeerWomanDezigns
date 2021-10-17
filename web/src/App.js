@@ -4,8 +4,9 @@ import './index.css';
 import Image from 'react-bootstrap/Image';
 import React from 'react';
 import Navigation from './components/Navigation';
-import Backdrop from './assets/Back.jpg';
 import UsersPage from './components/UsersPage';
+import Home from './components/Home';
+import Backdrop from './assets/Back.jpg';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 var sectionStyle = {
@@ -19,9 +20,10 @@ function App() {
         <Router>
           <Navigation />
           <Image src={logo} className="logoMain" />
-          <UsersPage />
           <Switch>
-            <Route to="/UsersPage" />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/Home' component={Home} />
+            <Route path='/UsersPage' component={UsersPage} />
           </Switch>
         </Router>
       </div>
