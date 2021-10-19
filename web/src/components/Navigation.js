@@ -1,72 +1,46 @@
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
+import { RiCloseFill, RiMore2Fill } from 'react-icons/ri';
+import { IconContext } from 'react-icons';
+import { SidebarData } from './sidebarData';
+import './navbar.css'
 
 function Navigation() {
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [sidebar, setSidebar] = useState(false);
+  const showSidebar = () => setSidebar(!sidebar)
 
   return (
     <>
-      <div>
-        <Navbar collapseOnSelect bg="dark" expand="md" className="mb-3" variant="dark">
-          <Container>
-            <Nav className="me-auto">
-              <Navbar.Toggle />
-              <Navbar.Collapse className="justify-content-end">
-                <Nav className="me-auto">
-                  <Nav.Link>Home</Nav.Link>
-                  <Nav.Link>Orders</Nav.Link>
-                  <Nav.Link onClick={handleShow}>Sign In</Nav.Link>
-                  <Nav.Link to="/users">Users</Nav.Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Nav>
-            <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-4" />
-            </Form>
-          </Container>
-        </Navbar>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Sign In</Modal.Title>
-          </Modal.Header>
-          <br />
-          <Container>
-            <Form>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Username or Email</Form.Label>
-                <Form.Control type="username" placeholder="Enter username" />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-                <Form.Text className="text-muted">
-                  If password is forgotten please contact site administrator.
-                </Form.Text>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              </Form.Group>
-            </Form>
-          </Container>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Sign In
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+      <IconContext.Provider value={{ color: "white" }}>
+        <div>
+          <div className="navbar">
+            <Link to='#' className='menu-bars'>
+              <RiMore2Fill onClick={showSidebar} />
+            </Link>
+          </div>
+          <Nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+            <ul className='nav-menu-items'>
+              <li className='navbar-toggle'>
+                <Link to="/" className='menu-bars'>
+                  <RiCloseFill onClick={showSidebar} />
+                </Link>
+              </li>
+              {SidebarData.map((item, index) => {
+                return (
+                  <li key={index} className={item.cName}>
+                    <Link to={item.path}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </Nav>
+        </div>
+      </IconContext.Provider>
     </>
   );
 }
