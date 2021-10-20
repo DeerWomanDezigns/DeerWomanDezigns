@@ -53,6 +53,8 @@ jobs:
             docker pull ghcr.io/deerwomandezigns/cors_proxy:${branch##*/}
             docker run --detach \
               --name cors_proxy \
+              --env "VIRTUAL_HOST=backend.deerwoman-dezigns.com" \
+              --env "VIRTUAL_PORT=90" \
               $(docker images 'ghcr.io/deerwomandezigns/cors_proxy' -aq)
 
             docker rm -f $(docker ps -f 'name=dwd_backend' -aq)
