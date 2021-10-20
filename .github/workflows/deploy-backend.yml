@@ -45,9 +45,19 @@ jobs:
           key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_BACKEND_PASSPHRASE }}
           script: |
+
+            branch="${{github.ref}}"
+
+            docker rm -f $(docker ps -f 'name=cors_proxy' -q)
+            docker rmi $(docker images 'ghcr.io/deerwomandezigns/cors_proxy' -q)
+            docker pull ghcr.io/deerwomandezigns/cors_proxy:${branch##*/}
+            docker run --detach \
+              --publish 90:90 \
+              --name cors_proxy \
+              $(docker images 'ghcr.io/deerwomandezigns/cors_proxy' -q)
+
             docker rm -f $(docker ps -f 'name=dwd_backend' -q)
             docker rmi $(docker images 'ghcr.io/deerwomandezigns/dwd_backend' -q)
-            branch="${{github.ref}}"
             docker pull ghcr.io/deerwomandezigns/dwd_backend:${branch##*/}
             docker run --detach \
               --env "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" \
