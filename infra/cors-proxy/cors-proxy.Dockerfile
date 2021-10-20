@@ -1,7 +1,6 @@
-FROM nginx:alpine
+FROM ghcr.io/deerwomandezigns/cors_proxy
 
 WORKDIR /etc/nginx
 COPY ./nginx.conf ./conf.d/default.conf
-EXPOSE 90
 ENTRYPOINT [ "nginx" ]
 CMD [ "-g", "daemon off;" ]

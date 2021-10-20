@@ -5,6 +5,7 @@ sudo usermod -a -G docker ec2-user
 docker run --detach \
     --name nginx-proxy \
     --publish 80:80 \
+    --publish 90:90 \
     --publish 443:443 \
     --volume certs:/etc/nginx/certs \
     --volume vhost:/etc/nginx/vhost.d \
