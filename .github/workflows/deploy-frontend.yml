@@ -52,7 +52,7 @@ jobs:
             docker run --detach \
               --env "VIRTUAL_HOST=deerwoman-dezigns.com" \
               --env "LETSENCRYPT_HOST=deerwoman-dezigns.com" \
-              --env "BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY }}" \
-              --env "BACKEND_SERVER_URL=https://backend.deerwoman-dezigns.com" \
+              --env "REACT_APP_BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY }}" \
+              --env "REACT_APP_BACKEND_SERVER_URL=https://backend.deerwoman-dezigns.com" \
               --name dwd_frontend \
               $(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)
