@@ -1,4 +1,4 @@
-FROM ghcr.io/deerwomandezigns/deerwomandezigns/nginx_proxy
+FROM ghcr.io/deerwomandezigns/nginx_proxy
 
 WORKDIR /etc/nginx
 COPY ./nginx.conf ./conf.d/default.conf
