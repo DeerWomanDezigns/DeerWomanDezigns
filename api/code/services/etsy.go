@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strings"
 
 	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"golang.org/x/oauth2"
@@ -40,8 +41,14 @@ func (s *EtsyService) Login(c *gin.Context) {
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
-	c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
-	return
+	proxyRedirectUrl := strings.Replace(redirectUrl, "https://etsy.com/", "http://localhost:90/", -1)
+	c.Redirect(http.StatusTemporaryRedirect, proxyRedirectUrl)
+	//if callbackResp, err := http.Get(proxyRedirectUrl); err != nil {
+	//	log.Println(err)
+	//} else {
+	//	req := callbackResp.Request.URL
+	//	signInUrl := req.Scheme + "://" + req.Host + req.Path + "?" + req.RawQuery
+	//}
 }
 
 func (s *EtsyService) HandleCallback(c *gin.Context) string {
