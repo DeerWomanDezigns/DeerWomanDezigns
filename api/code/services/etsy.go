@@ -41,16 +41,15 @@ func (s *EtsyService) Login(c *gin.Context) {
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
-	proxyRedirectUrl := strings.Replace(redirectUrl, "https://etsy.com/", "http://localhost:90/", -1)
-	if callbackResp, err := http.Get(proxyRedirectUrl); err != nil {
-		log.Println(err)
-	} else {
-		req := callbackResp.Request.URL
-		signInUrl := req.Scheme + "://" + req.Host + req.Path + "?" + req.RawQuery
-		proxySignInUrl := strings.Replace(signInUrl, "https://etsy.com/", "http://localhost:90/", -1)
-		log.Println("Proxying to signin URL", proxySignInUrl)
-		c.Redirect(http.StatusTemporaryRedirect, proxySignInUrl)
-	}
+	proxyRedirectUrl := strings.Replace(redirectUrl, "https://www.etsy.com/", "http://localhost:90/", -1)
+	c.Redirect(http.StatusTemporaryRedirect, proxyRedirectUrl)
+	//if callbackResp, err := http.Get(proxyRedirectUrl); err != nil {
+	//	log.Println(err)
+	//} else {
+	//	req := callbackResp.Request.URL
+	//	signInUrl := req.Scheme + "://" + req.Host + req.Path + "?" + req.RawQuery
+	//	c.Redirect(http.StatusTemporaryRedirect, signInUrl)
+	//}
 }
 
 func (s *EtsyService) HandleCallback(c *gin.Context) string {
