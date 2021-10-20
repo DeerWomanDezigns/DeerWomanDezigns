@@ -41,7 +41,7 @@ func (s *EtsyService) Login(c *gin.Context) {
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
-	proxyRedirectUrl := strings.Replace(redirectUrl, "https://www.etsy.com/", "http://localhost:90/", -1)
+	proxyRedirectUrl := strings.Replace(redirectUrl, "https://www.etsy.com/", "http://localhost:90/etsy/", -1)
 	c.Redirect(http.StatusTemporaryRedirect, proxyRedirectUrl)
 	//if callbackResp, err := http.Get(proxyRedirectUrl); err != nil {
 	//	log.Println(err)
