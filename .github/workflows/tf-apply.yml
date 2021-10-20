@@ -18,14 +18,14 @@ jobs:
 
       - name: Verify Terraform version
         run: terraform --version
-        working-directory: infra
+        working-directory: infra/aws
 
       - name: Terraform init
         run: terraform init -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        working-directory: infra
+        working-directory: infra/aws
 
       - name: Terraform validation
         run: terraform validate
@@ -36,7 +36,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        working-directory: infra
+        working-directory: infra/aws
 
   apply:
     runs-on: ubuntu-latest
@@ -49,11 +49,11 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        working-directory: infra
+        working-directory: infra/aws
 
       - name: Terraform apply
         run: terraform apply -input=false -auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        working-directory: infra
+        working-directory: infra/aws
