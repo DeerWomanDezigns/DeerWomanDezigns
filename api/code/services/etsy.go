@@ -40,7 +40,7 @@ func (s *EtsyService) Login(c *gin.Context) {
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
-	c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
+	c.Redirect(http.StatusOK, redirectUrl)
 	return
 }
 
