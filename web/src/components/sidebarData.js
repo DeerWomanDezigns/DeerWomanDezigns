@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiFillHome } from 'react-icons/ai';
-import { BsPersonFill, BsPeopleFill } from 'react-icons/bs';
+import { BsPersonFill, BsPeopleFill, BsTerminal } from 'react-icons/bs';
 
 export const SidebarData = [
     {
@@ -19,6 +19,12 @@ export const SidebarData = [
         title: 'Users Page',
         path: '/UsersPage',
         icon: <BsPeopleFill />,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Etsy Auth Page',
+        path: '/EtsyAuth',
+        icon: <BsTerminal />,
         cName: 'nav-text'
     }
 ]

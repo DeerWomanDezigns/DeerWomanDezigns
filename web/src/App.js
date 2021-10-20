@@ -4,6 +4,7 @@ import './index.css';
 import Image from 'react-bootstrap/Image';
 import UsersPage from './components/UsersPage';
 import Home from './components/Home';
+import EtsyAuth from './components/EtsyAuth';
 import Backdrop from './assets/Back.jpg';
 import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
@@ -61,6 +62,7 @@ function App() {
             <Route exact path='/' component={Home} />
             <Route exact path='/Home' component={Home} />
             <Route path='/UsersPage' component={UsersPage} />
+            <Route path='/EtsyAuth' component={EtsyAuth} />
           </Switch>
         </Router>
         
