@@ -52,8 +52,6 @@ jobs:
             docker rmi $(docker images 'ghcr.io/deerwomandezigns/cors_proxy' -aq)
             docker pull ghcr.io/deerwomandezigns/cors_proxy:${branch##*/}
             docker run --detach \
-              --env "VIRTUAL_HOST=backend.deerwoman-dezigns.com" \
-              --env "VIRTUAL_PORT=90" \
               --name cors_proxy \
               $(docker images 'ghcr.io/deerwomandezigns/cors_proxy' -aq)
 
