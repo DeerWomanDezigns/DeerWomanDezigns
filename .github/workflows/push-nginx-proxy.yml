@@ -12,7 +12,7 @@ env:
   NGINX_PROXY_IMAGE_NAME: nginx_proxy
 
 jobs:
-  backend_push:
+  image_push:
     runs-on: ubuntu-latest
     permissions:
       packages: write
