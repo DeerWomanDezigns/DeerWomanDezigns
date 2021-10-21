@@ -59,13 +59,12 @@ function App() {
         </IconContext.Provider>
           <Image src={logo} className="logoMain" alt="Logo"/>
           <Switch>
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' component={Login} />
             <Route exact path='/Home' component={Home} />
             <Route path='/UsersPage' component={UsersPage} />
+            <Route path='/Login' component={Login} />
           </Switch>
         </Router>
-        
-        <Login />
       </div>
     </div>
   );
