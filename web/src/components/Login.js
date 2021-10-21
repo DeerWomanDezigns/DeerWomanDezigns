@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
+import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import UserPool from '../UserPool';
@@ -35,7 +35,7 @@ const Login = () => {
     };
     return (
         <div>
-            <Form className="col-lg-6 offset-lg-3 ">
+            <Form className="col-lg-6 offset-lg-3">
                 <div className="row justify-content-center">
                 <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
