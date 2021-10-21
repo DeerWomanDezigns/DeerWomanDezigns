@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'cross-fetch/polyfill';
 import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
