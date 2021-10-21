@@ -5,18 +5,18 @@ import Button from 'react-bootstrap/Button';
 import UserPool from '../UserPool';
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [usertext, setUser] = useState("");
     const [password, setPassword] = useState("");
 
     const onSubmit = (event) => {
         event.preventDefault();
 
         const user = new CognitoUser({
-            Username: email,
+            Username: usertext,
             Pool: UserPool
         });
         const authDetails = new AuthenticationDetails({
-            Username: email,
+            Username: usertext,
             Password: password
         });
         
@@ -38,8 +38,8 @@ const Login = () => {
             <Form className="col-lg-6 offset-lg-3 ">
                 <div className="row justify-content-center">
                 <Form.Group className="mb-3">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" value={email} onChange={(event) => setEmail(event.target.value)}/>
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="email" placeholder="Enter Username" value={usertext} onChange={(event) => setUser(event.target.value)}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">

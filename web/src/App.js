@@ -12,14 +12,11 @@ import React, { useState } from "react";
 import { RiCloseFill, RiMore2Fill } from 'react-icons/ri';
 import { IconContext } from 'react-icons';
 import { SidebarData } from './components/sidebarData';
-import './components/navbar.css'
-
+import './components/navbar.css';
 
 var sectionStyle = {
   backgroundImage: `url(${Backdrop})`
 }
-
-
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
