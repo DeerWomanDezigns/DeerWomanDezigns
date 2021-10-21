@@ -2,6 +2,7 @@ variable "lightsail_instances" {
   type    = map(object({
     name = string
     keyFile = string
+    lightsailBundleId = string
   }))
   default = {
     backend = {
