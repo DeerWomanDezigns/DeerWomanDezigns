@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
+import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import UserPool from '../UserPool';
