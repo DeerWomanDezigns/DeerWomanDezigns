@@ -28,7 +28,7 @@ func LoadConfig(configPaths ...string) error {
 	v.SetConfigType("yaml")
 	v.AutomaticEnv()
 
-	v.SetDefault("server_port", 80)
+	v.SetDefault("server_port", 81)
 	v.SetDefault("api_key", GetAwsSecretKey("dwd/apiKey", "API_Key"))
 	v.SetDefault("etsy_client_id", GetAwsSecretKey("dwd/etsyKeystring", "Etsy_Keystring"))
 
