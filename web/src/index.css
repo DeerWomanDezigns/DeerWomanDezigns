@@ -21,3 +21,21 @@
     justify-content: center;
     align-items: center;
 }
+
+.login-form {
+    max-width: 35rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    padding: 1.5em;
+    border-radius: 1em;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
