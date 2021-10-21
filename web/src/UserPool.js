@@ -1,4 +1,4 @@
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { CognitoUserPool } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 
 
 const poolData = {
