@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"log"
 	"math/rand"
-	"net/http"
 
 	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"golang.org/x/oauth2"
@@ -33,22 +32,13 @@ func NewEtsyService() *EtsyService {
 	}
 }
 
-func (s *EtsyService) Login(c *gin.Context) {
-
+func (s *EtsyService) Login(c *gin.Context) string {
 	stateCookie := s.GenerateStateCookie(c)
 	codeChallenge := CodeVerifier.CodeChallengeS256()
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
-	//proxyRedirectUrl := strings.Replace(redirectUrl, "https://www.etsy.com/", "https://backend.deerwoman-dezigns.com:90/etsy/", -1)
-	c.Redirect(http.StatusTemporaryRedirect, redirectUrl)
-	//if callbackResp, err := http.Get(proxyRedirectUrl); err != nil {
-	//	log.Println(err)
-	//} else {
-	//	req := callbackResp.Request.URL
-	//	signInUrl := req.Scheme + "://" + req.Host + req.Path + "?" + req.RawQuery
-	//	c.Redirect(http.StatusTemporaryRedirect, signInUrl)
-	//}
+	return redirectUrl
 }
 
 func (s *EtsyService) HandleCallback(c *gin.Context) string {
@@ -60,7 +50,6 @@ func (s *EtsyService) HandleCallback(c *gin.Context) string {
 	}
 	code := c.Query("code")
 	token := s.GetAuthToken(c, code)
-
 	return token
 }
 

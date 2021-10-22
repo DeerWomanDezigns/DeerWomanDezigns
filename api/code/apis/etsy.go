@@ -16,8 +16,8 @@ import (
 // @Security ApiKeyAuth
 func EtsyLogin(c *gin.Context) {
 	s := services.NewEtsyService()
-	s.Login(c)
-	//c.JSON(http.StatusOK, "")
+	redirectUrl := s.Login(c)
+	c.JSON(http.StatusOK, redirectUrl)
 }
 
 // EtsyCallback godoc
