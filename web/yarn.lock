@@ -9212,6 +9212,14 @@ react-bootstrap-icons@^1.5.0:
   dependencies:
     prop-types "^15.7.2"
 
+react-bootstrap-range-slider@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-bootstrap-range-slider/-/react-bootstrap-range-slider-3.0.2.tgz#e5c52e8296a57711d2baeefad4b7fa2c9e06a3f4"
+  integrity sha512-Fk/dbIcu/wKcDF7CdIuPUxPAc9u2JBpVJ96wgAiGkTwYxZgAB37XzoMkLgAX8RfdRkkYS12WntCXMkdyDGsHFg==
+  dependencies:
+    classnames "^2.3.1"
+    prop-types "^15.7.2"
+
 react-bootstrap@^1.6.4:
   version "1.6.4"
   resolved "https://registry.npmjs.org/react-bootstrap/-/react-bootstrap-1.6.4.tgz"
