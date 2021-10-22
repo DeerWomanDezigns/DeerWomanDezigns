@@ -1,8 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './assets/logo_full.png';
 import './index.css';
 import Image from 'react-bootstrap/Image';
 import UsersPage from './components/UsersPage';
+import OrdersPage from './components/OrdersPage';
 import Home from './components/Home';
 import Backdrop from './assets/Back.jpg';
 import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
@@ -46,8 +46,7 @@ function App() {
                   return (
                     <li key={index} className={item.cName}>
                       <Link to={item.path}>
-                        {item.icon}
-                        <span>{item.title}</span>
+                        {item.icon}&thinsp;{item.title}
                       </Link>
                     </li>
                   );
@@ -61,6 +60,7 @@ function App() {
             <Route exact path='/' component={Home} />
             <Route exact path='/Home' component={Home} />
             <Route path='/UsersPage' component={UsersPage} />
+            <Route path='/Orders' component={OrdersPage} />
           </Switch>
         </Router>
         
