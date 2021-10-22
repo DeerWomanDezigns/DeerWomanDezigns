@@ -15,9 +15,20 @@
     padding: 0;
 }
 
-.UsersPage, .Home {
+.UsersPage, .Home, .OrdersPage {
     padding-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3rem;
+}
+
+.slider {
+    max-width: 10rem;
 }
