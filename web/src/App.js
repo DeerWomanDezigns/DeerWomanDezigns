@@ -3,7 +3,6 @@ import logo from './assets/logo_full.png';
 import './index.css';
 import Image from 'react-bootstrap/Image';
 import UsersPage from './components/UsersPage';
-import Home from './components/Home';
 import Backdrop from './assets/Back.jpg';
 import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
@@ -58,8 +57,7 @@ function App() {
         </IconContext.Provider>
           <Image src={logo} className="logoMain" />
           <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/Home' component={Home} />
+          <Route exact path='/'/>
             <Route path='/UsersPage' component={UsersPage} />
           </Switch>
         </Router>
