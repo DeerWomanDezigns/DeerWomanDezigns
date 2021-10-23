@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
@@ -26,7 +27,7 @@ type EtsyService struct {
 func NewEtsyService() *EtsyService {
 	return &EtsyService{
 		EtsyOauthConfig: oauth2.Config{
-			RedirectURL: "http://localhost/api/v1/etsy/callback",
+			RedirectURL: fmt.Sprintf("%s/api/v1/etsy/callback", config.Config.BaseUrl),
 			ClientID:    config.Config.EtsyClientId,
 			Scopes:      []string{"shops_r"},
 			Endpoint: oauth2.Endpoint{
@@ -42,7 +43,7 @@ func (s *EtsyService) Login(c *gin.Context) string {
 	codeChallenge := CodeVerifier.CodeChallengeS256()
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
-	c.SetCookie("codeVer", CodeVerifier.Value, 60*60*12, "/", "localhost", false, true)
+	c.SetCookie("codeVer", CodeVerifier.Value, 60*60*12, "/", config.Config.BaseUrl, false, true)
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
 	return redirectUrl
 }
@@ -82,7 +83,6 @@ func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
 	b := make([]byte, 16)
 	rand.Read(b)
 	state := base64.URLEncoding.EncodeToString(b)
-	c.SetCookie("oauthstate", state, 60*60*12, "/", "localhost", false, true)
-
+	c.SetCookie("oauthstate", state, 60*60*12, "/", config.Config.BaseUrl, false, true)
 	return state
 }
