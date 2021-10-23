@@ -43,13 +43,13 @@ func (s *EtsyService) Login(c *gin.Context) string {
 	codeChallenge := CodeVerifier.CodeChallengeS256()
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
-	c.SetCookie("codeVer", CodeVerifier.Value, 60*60*12, "/", config.Config.BackendDomain, false, true)
+	c.SetCookie("code_ver", CodeVerifier.Value, 60*60*12, "/", config.Config.BackendDomain, false, true)
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
 	return redirectUrl
 }
 
 func (s *EtsyService) HandleCallback(c *gin.Context) {
-	tokenState, _ := c.Cookie("oauthstate")
+	tokenState, _ := c.Cookie("state")
 
 	if reqState := c.Query("state"); reqState == "" || reqState != tokenState {
 		log.Println("invalid or missing state token")
@@ -59,7 +59,7 @@ func (s *EtsyService) HandleCallback(c *gin.Context) {
 }
 
 func (s *EtsyService) GetAuthToken(c *gin.Context, code string) {
-	codeVer, _ := c.Cookie("codeVer")
+	codeVer, _ := c.Cookie("code_ver")
 	if resp, err := http.PostForm(s.EtsyOauthConfig.Endpoint.TokenURL, url.Values{
 		"grant_type":    {"authorization_code"},
 		"client_id":     {config.Config.EtsyClientId},
@@ -95,6 +95,6 @@ func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
 	b := make([]byte, 16)
 	rand.Read(b)
 	state := base64.URLEncoding.EncodeToString(b)
-	c.SetCookie("oauthstate", state, 60*60*12, "/", config.Config.BackendDomain, false, true)
+	c.SetCookie("state", state, 60*60*12, "/", config.Config.BackendDomain, false, true)
 	return state
 }
