@@ -16,7 +16,7 @@ import (
 // @Produce json
 // @Param id path integer true "User ID"
 // @Success 200 {object} models.User
-// @Router /users/{id} [get]
+// @Router /api/v1/users/{id} [get]
 // @Security ApiKeyAuth
 func GetUser(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())
@@ -33,7 +33,7 @@ func GetUser(c *gin.Context) {
 // @Summary Retrieves all users
 // @Produce json
 // @Success 200 {object} []models.User
-// @Router /users [get]
+// @Router /api/v1/users [get]
 // @Security ApiKeyAuth
 func GetAllUsers(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())
@@ -51,7 +51,7 @@ func GetAllUsers(c *gin.Context) {
 // @Param data body models.User true "body data"
 // @Produce json
 // @Success 200 {object} models.User
-// @Router /users [post]
+// @Router /api/v1/users [post]
 // @Security ApiKeyAuth
 func AddUser(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())
@@ -78,7 +78,7 @@ func AddUser(c *gin.Context) {
 // @Param data body models.User true "body data"
 // @Produce json
 // @Success 200 {object} models.User
-// @Router /users/{id} [put]
+// @Router /api/v1/users/{id} [put]
 // @Security ApiKeyAuth
 func ModifyUser(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())
@@ -103,7 +103,7 @@ func ModifyUser(c *gin.Context) {
 // @Produce json
 // @Param id path integer true "User ID"
 // @Success 200
-// @Router /users/{id} [delete]
+// @Router /api/v1/users/{id} [delete]
 // @Security ApiKeyAuth
 func DeleteUser(c *gin.Context) {
 	s := services.NewUserService(daos.NewUserDAO())

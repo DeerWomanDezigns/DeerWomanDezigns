@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /
 definitions:
   models.User:
     properties:
@@ -25,27 +25,7 @@ info:
   title: Deer Woman Dezigns Swagger API
   version: "1.0"
 paths:
-  /etsy/callback:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ""
-      security:
-      - ApiKeyAuth: []
-      summary: Handles callback from Etsy
-  /etsy/login:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ""
-      security:
-      - ApiKeyAuth: []
-      summary: Initiates authentication to Etsy
-  /users:
+  /api/v1/users:
     get:
       produces:
       - application/json
@@ -79,7 +59,7 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Adds and returns user based on given json
-  /users/{id}:
+  /api/v1/users/{id}:
     delete:
       parameters:
       - description: User ID
@@ -137,6 +117,26 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Modifies and returns user based on given id and json
+  /etsy/callback:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Handles callback from Etsy
+  /etsy/login:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Initiates authentication to Etsy
 securityDefinitions:
   ApiKeyAuth:
     in: header

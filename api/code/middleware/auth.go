@@ -12,7 +12,7 @@ import (
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if c.FullPath() == "/api/v1/etsy/callback" {
+		if c.FullPath() == "/etsy/callback" {
 			c.Next()
 			return
 		}

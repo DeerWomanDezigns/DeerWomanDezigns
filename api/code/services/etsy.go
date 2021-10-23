@@ -27,7 +27,7 @@ type EtsyService struct {
 func NewEtsyService() *EtsyService {
 	return &EtsyService{
 		EtsyOauthConfig: oauth2.Config{
-			RedirectURL: fmt.Sprintf("%s://%s/api/v1/etsy/callback", config.Config.BackendProtocol, config.Config.BackendDomain),
+			RedirectURL: fmt.Sprintf("%s://%s/etsy/callback", config.Config.BackendProtocol, config.Config.BackendDomain),
 			ClientID:    config.Config.EtsyClientId,
 			Scopes:      []string{"shops_r"},
 			Endpoint: oauth2.Endpoint{
@@ -78,7 +78,7 @@ func (s *EtsyService) GetAuthToken(c *gin.Context, code string) {
 
 func (s *EtsyService) RefreshAuthToken(c *gin.Context, refreshToken string) {
 	if resp, err := http.PostForm(s.EtsyOauthConfig.Endpoint.TokenURL, url.Values{
-		"grant_type":    {"authorization_code"},
+		"grant_type":    {"refresh_token"},
 		"client_id":     {config.Config.EtsyClientId},
 		"refresh_token": {refreshToken},
 	}); err != nil {

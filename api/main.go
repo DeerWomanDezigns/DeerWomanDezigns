@@ -30,7 +30,7 @@ import (
 // @license.name Creative Commons
 // @license.url https://github.com/Maybeenaught/DeerWomanDezigns/blob/main/license.md
 
-// @BasePath /api/v1
+// @BasePath /
 
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
@@ -56,13 +56,20 @@ func main() {
 	{
 		v1.Use(middleware.CORS())
 		v1.Use(middleware.Auth())
+		v1.Use(middleware.EtsyAuth())
 		v1.GET("/users", apis.GetAllUsers)
 		v1.GET("/users/:id", apis.GetUser)
 		v1.POST("/users", apis.AddUser)
 		v1.PUT("/users/:id", apis.ModifyUser)
 		v1.DELETE("/users/:id", apis.DeleteUser)
-		v1.GET("/etsy/login", apis.EtsyLogin)
-		v1.GET("/etsy/callback", apis.EtsyCallback)
+	}
+
+	oAuth := r.Group("/etsy")
+	{
+		oAuth.Use(middleware.CORS())
+		oAuth.Use(middleware.Auth())
+		oAuth.GET("/login", apis.EtsyLogin)
+		oAuth.GET("/callback", apis.EtsyCallback)
 	}
 
 	sess := session.Must(session.NewSession())
