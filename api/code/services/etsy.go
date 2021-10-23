@@ -76,6 +76,22 @@ func (s *EtsyService) GetAuthToken(c *gin.Context, code string) {
 	}
 }
 
+func (s *EtsyService) RefreshAuthToken(c *gin.Context, code string) {
+	refreshToken, _ := c.Cookie("refresh_token")
+	if resp, err := http.PostForm(s.EtsyOauthConfig.Endpoint.TokenURL, url.Values{
+		"grant_type":    {"authorization_code"},
+		"client_id":     {config.Config.EtsyClientId},
+		"refresh_token": {refreshToken},
+	}); err != nil {
+		log.Println("error retrieving oath token", err)
+	} else {
+		tokens := models.Tokens{}
+		json.NewDecoder(resp.Body).Decode(&tokens)
+		c.SetCookie("access_token", tokens.AccessToken, tokens.ExpiresIn, "/", config.Config.BackendDomain, false, true)
+		c.SetCookie("refresh_token", tokens.RefreshToken, 60*60*24*7, "/", config.Config.BackendDomain, false, true)
+	}
+}
+
 func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
 	b := make([]byte, 16)
 	rand.Read(b)
