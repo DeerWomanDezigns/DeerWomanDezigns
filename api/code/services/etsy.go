@@ -76,8 +76,7 @@ func (s *EtsyService) GetAuthToken(c *gin.Context, code string) {
 	}
 }
 
-func (s *EtsyService) RefreshAuthToken(c *gin.Context, code string) {
-	refreshToken, _ := c.Cookie("refresh_token")
+func (s *EtsyService) RefreshAuthToken(c *gin.Context, refreshToken string) {
 	if resp, err := http.PostForm(s.EtsyOauthConfig.Endpoint.TokenURL, url.Values{
 		"grant_type":    {"authorization_code"},
 		"client_id":     {config.Config.EtsyClientId},
