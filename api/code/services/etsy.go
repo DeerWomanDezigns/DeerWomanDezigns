@@ -27,7 +27,7 @@ type EtsyService struct {
 func NewEtsyService() *EtsyService {
 	return &EtsyService{
 		EtsyOauthConfig: oauth2.Config{
-			RedirectURL: fmt.Sprintf("%s/api/v1/etsy/callback", config.Config.BaseUrl),
+			RedirectURL: fmt.Sprintf("%s://%s/api/v1/etsy/callback", config.Config.BackendProtocol, config.Config.BackendDomain),
 			ClientID:    config.Config.EtsyClientId,
 			Scopes:      []string{"shops_r"},
 			Endpoint: oauth2.Endpoint{
@@ -43,24 +43,22 @@ func (s *EtsyService) Login(c *gin.Context) string {
 	codeChallenge := CodeVerifier.CodeChallengeS256()
 	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
 	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
-	c.SetCookie("codeVer", CodeVerifier.Value, 60*60*12, "/", config.Config.BaseUrl, false, true)
+	c.SetCookie("codeVer", CodeVerifier.Value, 60*60*12, "/", config.Config.BackendDomain, false, true)
 	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
 	return redirectUrl
 }
 
-func (s *EtsyService) HandleCallback(c *gin.Context) string {
+func (s *EtsyService) HandleCallback(c *gin.Context) {
 	tokenState, _ := c.Cookie("oauthstate")
 
 	if reqState := c.Query("state"); reqState == "" || reqState != tokenState {
 		log.Println("invalid or missing state token")
-		return "invalid or missing state token"
 	}
 	code := c.Query("code")
-	tokens := s.GetAuthToken(c, code)
-	return tokens.AccessToken
+	s.GetAuthToken(c, code)
 }
 
-func (s *EtsyService) GetAuthToken(c *gin.Context, code string) models.Tokens {
+func (s *EtsyService) GetAuthToken(c *gin.Context, code string) {
 	codeVer, _ := c.Cookie("codeVer")
 	if resp, err := http.PostForm(s.EtsyOauthConfig.Endpoint.TokenURL, url.Values{
 		"grant_type":    {"authorization_code"},
@@ -70,12 +68,11 @@ func (s *EtsyService) GetAuthToken(c *gin.Context, code string) models.Tokens {
 		"code_verifier": {codeVer},
 	}); err != nil {
 		log.Println("error retrieving oath token", err)
-		return models.Tokens{}
 	} else {
 		tokens := models.Tokens{}
 		json.NewDecoder(resp.Body).Decode(&tokens)
-		//return token.AccessToken
-		return tokens
+		c.SetCookie("access_token", tokens.AccessToken, tokens.ExpiresIn, "/", config.Config.BackendDomain, false, true)
+		c.SetCookie("refresh_token", tokens.RefreshToken, 60*60*24*7, "/", config.Config.BackendDomain, false, true)
 	}
 }
 
@@ -83,6 +80,6 @@ func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
 	b := make([]byte, 16)
 	rand.Read(b)
 	state := base64.URLEncoding.EncodeToString(b)
-	c.SetCookie("oauthstate", state, 60*60*12, "/", config.Config.BaseUrl, false, true)
+	c.SetCookie("oauthstate", state, 60*60*12, "/", config.Config.BackendDomain, false, true)
 	return state
 }
