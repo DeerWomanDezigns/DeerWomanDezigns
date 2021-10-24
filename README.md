@@ -25,6 +25,9 @@ All data is stored in AWS DynamoDB and the servers are hosted in AWS Lightsail.
 All integration and deployments are handled through GitHub Actions.
 
 ## Running the App
+1. Navigate to the root directory of the repository
+2. cd './web'
+3. Run `yarn start` or `npm start`
 
 ### Using Docker
 1. Clone the repository
