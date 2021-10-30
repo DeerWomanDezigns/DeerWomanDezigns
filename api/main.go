@@ -50,12 +50,13 @@ func main() {
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	r.Use(gin.Recovery())
 
+	r.Use(middleware.CORS())
+	r.Use(middleware.Auth())
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	v1 := r.Group("/api/v1")
 	{
-		v1.Use(middleware.CORS())
-		v1.Use(middleware.Auth())
 		v1.GET("/users", apis.GetAllUsers)
 		v1.GET("/users/:id", apis.GetUser)
 		v1.POST("/users", apis.AddUser)
