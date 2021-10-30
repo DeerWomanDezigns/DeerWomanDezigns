@@ -13,5 +13,5 @@ import (
 // @Router /api/v1/etsy/test [get]
 // @Security ApiKeyAuth
 func EtsyTest(c *gin.Context) {
-	c.AbortWithStatus(http.StatusUnauthorized)
+	c.JSON(http.StatusUnauthorized, "etsy tokens are missing and need to be acquired")
 }
