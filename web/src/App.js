@@ -45,8 +45,7 @@ function App() {
                   return (
                     <li key={index} className={item.cName}>
                       <Link to={item.path}>
-                        {item.icon}
-                        <span>{item.title}</span>
+                        {item.icon}&thinsp;&thinsp;{item.title}
                       </Link>
                     </li>
                   );
