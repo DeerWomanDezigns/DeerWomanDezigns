@@ -25,6 +25,16 @@ info:
   title: Deer Woman Dezigns Swagger API
   version: "1.0"
 paths:
+  /api/v1/etsy/test:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Returns a 401
   /api/v1/users:
     get:
       produces:
@@ -117,26 +127,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Modifies and returns user based on given id and json
-  /etsy/callback:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ""
-      security:
-      - ApiKeyAuth: []
-      summary: Handles callback from Etsy
-  /etsy/login:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: ""
-      security:
-      - ApiKeyAuth: []
-      summary: Initiates authentication to Etsy
 securityDefinitions:
   ApiKeyAuth:
     in: header
