@@ -56,20 +56,12 @@ func main() {
 	{
 		v1.Use(middleware.CORS())
 		v1.Use(middleware.Auth())
-		v1.Use(middleware.EtsyAuth())
 		v1.GET("/users", apis.GetAllUsers)
 		v1.GET("/users/:id", apis.GetUser)
 		v1.POST("/users", apis.AddUser)
 		v1.PUT("/users/:id", apis.ModifyUser)
 		v1.DELETE("/users/:id", apis.DeleteUser)
-	}
-
-	oAuth := r.Group("/etsy")
-	{
-		oAuth.Use(middleware.CORS())
-		oAuth.Use(middleware.Auth())
-		oAuth.GET("/login", apis.EtsyLogin)
-		oAuth.GET("/callback", apis.EtsyCallback)
+		v1.GET("/etsy/test", apis.EtsyTest)
 	}
 
 	sess := session.Must(session.NewSession())
