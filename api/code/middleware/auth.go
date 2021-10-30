@@ -12,10 +12,6 @@ import (
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if c.FullPath() == "/etsy/callback" {
-			c.Next()
-			return
-		}
 		authHeader := c.GetHeader("Authorization")
 		if len(authHeader) == 0 {
 			httputil.NewError(c, http.StatusUnauthorized, errors.New("authorization is a required header"))
