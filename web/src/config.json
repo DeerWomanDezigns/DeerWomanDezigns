@@ -1,4 +1,5 @@
 {
-    "SERVER_URL": "{SERVER_URL}",
-    "API_KEY": "{API_KEY}"
+  "SERVER_URL": "{SERVER_URL}",
+  "API_KEY": "{API_KEY}",
+  "AWS_REGION": "us-east-2"
 }

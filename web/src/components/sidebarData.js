@@ -20,11 +20,5 @@ export const SidebarData = [
     path: '/UsersPage',
     icon: <BsPeopleFill />,
     cName: 'nav-text'
-  },
-  {
-    title: 'Etsy Auth Page',
-    path: '/EtsyAuth',
-    icon: <BsTerminal />,
-    cName: 'nav-text'
   }
 ]

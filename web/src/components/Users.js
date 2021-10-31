@@ -2,7 +2,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
-import configData from '../config.json'
+import configData from '../config.json';
+import EtsyAuth from './EtsyAuth';
 
 class Users extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class Users extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${configData.SERVER_URL}/api/v1/users`, {
+    fetch(`${configData.SERVER_URL}/api/v1/etsy/test`, {
       "method": "GET",
       "headers": {
         "Authorization": configData.API_KEY
@@ -32,7 +33,7 @@ class Users extends React.Component {
         (error) => {
           this.setState({
             isLoaded: true,
-            error
+            error: error
           });
         }
       )
@@ -40,9 +41,12 @@ class Users extends React.Component {
 
   render() {
     const { error, isLoaded, users } = this.state;
+    console.log(this.state)
     if (error) {
       console.log("Error: " + error.message)
-      return <div><strong>...</strong></div>;
+      console.log(this.state.error)
+    } else if (users === "etsy tokens are missing and need to be acquired") {
+      return (<EtsyAuth error={this.state.error} />)
     } else if (!isLoaded) {
       return <div>
         <Spinner animation="grow" />
