@@ -3,6 +3,7 @@ import logo from './assets/logo_full.png';
 import './index.css';
 import Image from 'react-bootstrap/Image';
 import UsersPage from './components/UsersPage';
+import EtsyAuth from './components/EtsyAuth';
 import Backdrop from './assets/Back.jpg';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
@@ -17,6 +18,7 @@ var sectionStyle = {
 }
 
 function App() {
+  require("dotenv").config();
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar)
 
@@ -56,6 +58,11 @@ function App() {
           <Switch>
             <Route exact path='/' />
             <Route path='/UsersPage' component={UsersPage} />
+            <Route
+              path="/EtsyAuth"
+              component={EtsyAuth}
+              loc="https://Etsy.com"
+            />
           </Switch>
         </Router>
       </div>
