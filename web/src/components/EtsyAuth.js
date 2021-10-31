@@ -32,23 +32,14 @@ async function getAwsSecret(secretName) {
   });
 }
 
-export class EtsyAuth extends Component {
-  constructor(props) {
-    super();
-    this.state = { ...props };
-  }
-  componentWillMount() {
-    getAwsSecret('dwd/etsyKeystring')
-      .then(res => {
-        console.log(res)
-        var clientId = JSON.parse(res).Etsy_Keystring;
-        window.location.href = "https://www.etsy.com";
-      })
-  }
-
-  render() {
-    return (<section>Redirecting...</section>);
-  }
+function EtsyAuth() {
+  var redirectUrl = "https://www.etsy.com/oauth/connect?response_type=code"
+  getAwsSecret('dwd/etsyKeystring')
+    .then(res => {
+      console.log(res)
+      var clientId = JSON.parse(res).Etsy_Keystring;
+      window.location.href = `${redirectUrl}&client_id=${clientId}`
+    })
 }
 
 export default EtsyAuth;

@@ -31,6 +31,9 @@ class Users extends React.Component {
           });
         },
         (error) => {
+          if (error.message === "etsy tokens are missing and need to be acquired") {
+            EtsyAuth();
+          }
           this.setState({
             isLoaded: true,
             error: error
@@ -45,8 +48,7 @@ class Users extends React.Component {
     if (error) {
       console.log("Error: " + error.message)
       console.log(this.state.error)
-    } else if (users === "etsy tokens are missing and need to be acquired") {
-      return (<EtsyAuth error={this.state.error} />)
+      return <div>{error.message}</div>
     } else if (!isLoaded) {
       return <div>
         <Spinner animation="grow" />
