@@ -3,6 +3,7 @@ package apis
 import (
 	"net/http"
 
+	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,4 +15,15 @@ import (
 // @Security ApiKeyAuth
 func EtsyTest(c *gin.Context) {
 	c.JSON(http.StatusUnauthorized, gin.H{"error": "etsy tokens are missing and need to be acquired"})
+}
+
+func AcquireTokens(c *gin.Context) {
+	params := c.Request.URL.Query()
+	redirectUri := params.Get("redirect_uri")
+	code := params.Get("code")
+	codeVer := params.Get("code_verifier")
+
+	s := services.NewEtsyService()
+	s.GetAuthToken(c, code, codeVer, redirectUri)
+	c.JSON(http.StatusOK, "Tokens acquired")
 }

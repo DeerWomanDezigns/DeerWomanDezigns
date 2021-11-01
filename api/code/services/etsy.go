@@ -1,73 +1,36 @@
 package services
 
 import (
-	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/models"
 
-	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"golang.org/x/oauth2"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/config"
 	"github.com/gin-gonic/gin"
 )
 
-var CodeVerifier, _ = cv.CreateCodeVerifier()
-
 type EtsyService struct {
 	EtsyOauthConfig oauth2.Config
 }
 
 func NewEtsyService() *EtsyService {
-	return &EtsyService{
-		EtsyOauthConfig: oauth2.Config{
-			RedirectURL: fmt.Sprintf("%s://%s/etsy/callback", config.Config.BackendProtocol, config.Config.BackendDomain),
-			ClientID:    config.Config.EtsyClientId,
-			Scopes:      []string{"shops_r"},
-			Endpoint: oauth2.Endpoint{
-				AuthURL:  "https://www.etsy.com/oauth/connect",
-				TokenURL: "https://api.etsy.com/v3/public/oauth/token",
-			},
-		},
-	}
+	return &EtsyService{}
 }
 
-func (s *EtsyService) Login(c *gin.Context) string {
-	stateCookie := s.GenerateStateCookie(c)
-	codeChallenge := CodeVerifier.CodeChallengeS256()
-	challengeOpt := oauth2.SetAuthURLParam("code_challenge", codeChallenge)
-	challengeTypeOpt := oauth2.SetAuthURLParam("code_challenge_method", "S256")
-	c.SetCookie("code_ver", CodeVerifier.Value, 60*60*12, "/", config.Config.BackendDomain, false, true)
-	redirectUrl := s.EtsyOauthConfig.AuthCodeURL(stateCookie, challengeOpt, challengeTypeOpt)
-	return redirectUrl
-}
-
-func (s *EtsyService) HandleCallback(c *gin.Context) {
-	tokenState, _ := c.Cookie("state")
-
-	if reqState := c.Query("state"); reqState == "" || reqState != tokenState {
-		log.Println("invalid or missing state token")
-	}
-	code := c.Query("code")
-	s.GetAuthToken(c, code)
-}
-
-func (s *EtsyService) GetAuthToken(c *gin.Context, code string) {
-	codeVer, _ := c.Cookie("code_ver")
-	if resp, err := http.PostForm(s.EtsyOauthConfig.Endpoint.TokenURL, url.Values{
+func (s *EtsyService) GetAuthToken(c *gin.Context, code string, codeVer string, redirectUrl string) {
+	if resp, err := http.PostForm("https://api.etsy.com/v3/public/oauth/token", url.Values{
 		"grant_type":    {"authorization_code"},
 		"client_id":     {config.Config.EtsyClientId},
-		"redirect_uri":  {s.EtsyOauthConfig.RedirectURL},
+		"redirect_uri":  {redirectUrl},
 		"code":          {code},
 		"code_verifier": {codeVer},
 	}); err != nil {
-		log.Println("error retrieving oath token", err)
+		log.Println("error retrieving oauth token", err)
 	} else {
 		tokens := models.Tokens{}
 		json.NewDecoder(resp.Body).Decode(&tokens)
@@ -89,12 +52,4 @@ func (s *EtsyService) RefreshAuthToken(c *gin.Context, refreshToken string) {
 		c.SetCookie("access_token", tokens.AccessToken, tokens.ExpiresIn, "/", config.Config.BackendDomain, false, true)
 		c.SetCookie("refresh_token", tokens.RefreshToken, 60*60*24*7, "/", config.Config.BackendDomain, false, true)
 	}
-}
-
-func (s *EtsyService) GenerateStateCookie(c *gin.Context) string {
-	b := make([]byte, 16)
-	rand.Read(b)
-	state := base64.URLEncoding.EncodeToString(b)
-	c.SetCookie("state", state, 60*60*12, "/", config.Config.BackendDomain, false, true)
-	return state
 }
