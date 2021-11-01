@@ -63,6 +63,7 @@ func main() {
 		v1.PUT("/users/:id", apis.ModifyUser)
 		v1.DELETE("/users/:id", apis.DeleteUser)
 		v1.GET("/etsy/test", apis.EtsyTest)
+		v1.GET("/etsy/tokens", apis.SetTokens)
 	}
 
 	sess := session.Must(session.NewSession())

@@ -21,7 +21,7 @@ func EtsyTest(c *gin.Context) {
 	}
 }
 
-func AcquireTokens(c *gin.Context) {
+func SetTokens(c *gin.Context) {
 	params := c.Request.URL.Query()
 	redirectUri := params.Get("redirect_uri")
 	code := params.Get("code")
