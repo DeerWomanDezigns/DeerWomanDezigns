@@ -23,8 +23,10 @@ class Users extends React.Component {
       }
     })
       .then(res => {
-        console.log(res.status)
-        console.log(res.body)
+        if(res.status !== 200) {
+          console.log(res.status)
+          console.log(res.body)
+        }
         if (res.status === 401) {
           EtsyAuth.InitAuth("shops_r");
           this.setState({
