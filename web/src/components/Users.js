@@ -2,7 +2,6 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
-import configData from '../config.json';
 import EtsyAuth from './EtsyAuth';
 
 class Users extends React.Component {
@@ -17,10 +16,10 @@ class Users extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${configData.SERVER_URL}/api/v1/etsy/test`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/etsy/test`, {
       "method": "GET",
       "headers": {
-        "Authorization": configData.API_KEY
+        "Authorization": process.env.REACT_APP_BACKEND_API_KEY
       }
     })
       .then(res => {

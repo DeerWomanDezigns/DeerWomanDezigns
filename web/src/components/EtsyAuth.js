@@ -1,4 +1,3 @@
-import configData from '../config.json';
 import Cookies from 'universal-cookie';
 
 const crypto = require("crypto");
@@ -7,7 +6,7 @@ const cookies = new Cookies();
 export default class EtsyAuth {
   static async getAwsSecret(secretName) {
     var AWS = require('aws-sdk'),
-      region = configData.AWS_REGION
+      region = 'us-east-2'
 
     AWS.config.update({
       accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
@@ -66,10 +65,10 @@ export default class EtsyAuth {
     }
     var handlerUrl = window.location.href.substring(0, window.location.href.indexOf("/", 9))
     var codeVer = cookies.get('codeVerifier')
-    fetch(`${configData.SERVER_URL}/api/v1/etsy/tokens?redirect_uri=${handlerUrl}/EtsyRedirect&code=${params.get("code")}&code_verifier=${codeVer}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/etsy/tokens?redirect_uri=${handlerUrl}/EtsyRedirect&code=${params.get("code")}&code_verifier=${codeVer}`, {
       "method": "GET",
       "headers": {
-        "Authorization": configData.API_KEY
+        "Authorization": process.env.REACT_APP_BACKEND_API_KEY
       }
     })
       .then(
