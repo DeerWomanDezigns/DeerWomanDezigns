@@ -60,7 +60,7 @@ function App() {
             <Route path='/UsersPage' component={UsersPage} />
             <Route
               path="/EtsyRedirect"
-              onEnter={() => HandleRedirect}
+              onEnter={() => HandleRedirect()}
             />
           </Switch>
         </Router>

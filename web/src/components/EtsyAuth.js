@@ -1,5 +1,7 @@
 import configData from '../config.json';
 
+const crypto = require("crypto");
+
 async function getAwsSecret(secretName) {
   var AWS = require('aws-sdk'),
     region = configData.AWS_REGION
@@ -31,14 +33,38 @@ async function getAwsSecret(secretName) {
 }
 
 function HandleRedirect() {
+  console.log("Redirected")
+}
 
+function base64URLEncode(str) {
+  return str
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "")
+}
+
+function GenerateCode(codeVerifier) {
+  const sha256 = (buffer) => crypto.createHash("sha256").update(buffer).digest();
+  const codeChallenge = base64URLEncode(sha256(codeVerifier));
+  return codeChallenge
 }
 
 function EtsyAuth(scopes) {
   var redirectUrl = "https://www.etsy.com/oauth/connect?response_type=code"
   redirectUrl = `${redirectUrl}&scope=${scopes}`
+
   var handlerUrl = window.location.href.substring(0, window.location.href.indexOf("/", 9))
   redirectUrl = `${redirectUrl}&redirect_uri=${handlerUrl}/EtsyRedirect`
+
+  var codeVerifier = base64URLEncode(crypto.randomBytes(32));
+  var codeChallenge = GenerateCode(codeVerifier);
+  redirectUrl = `${redirectUrl}&code_challenge_method=S256`
+  redirectUrl = `${redirectUrl}&code_challenge=${codeChallenge}`
+
+  var state = Math.random().toString(36).substring(7);
+  redirectUrl = `${redirectUrl}&state=${state}`
+
   getAwsSecret('dwd/etsyKeystring')
     .then(res => {
       var clientId = JSON.parse(res).Etsy_Keystring;
