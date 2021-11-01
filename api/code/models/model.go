@@ -8,6 +8,14 @@ type User struct {
 	Email     string `dynamo:"email" json:"email"`
 }
 
+type AuthRequest struct {
+	GrantType    string `json:"grant_type"`
+	ClientID     string `json:"client_id"`
+	RedirectURI  string `json:"redirect_uri"`
+	Code         string `json:"code"`
+	CodeVerifier string `json:"code_verifier"`
+}
+
 type Tokens struct {
 	AccessToken  string `json:"access_token"`
 	TokenType    string `json:"token_type"`

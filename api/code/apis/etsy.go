@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/deer-woman-dezigns/deer-woman-dezigns/code/services"
@@ -14,7 +15,8 @@ import (
 // @Router /api/v1/etsy/test [get]
 // @Security ApiKeyAuth
 func EtsyTest(c *gin.Context) {
-	if _, err := c.Request.Cookie("access_token"); err != nil {
+	if cookie, err := c.Cookie("access_token"); err != nil {
+		log.Println(cookie)
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "etsy tokens are missing and need to be acquired"})
 	} else {
 		c.JSON(http.StatusOK, "Cookies set")
