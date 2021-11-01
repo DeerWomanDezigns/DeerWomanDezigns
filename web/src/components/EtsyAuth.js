@@ -1,10 +1,8 @@
 import configData from '../config.json';
-import { Component } from 'react';
 
 async function getAwsSecret(secretName) {
   var AWS = require('aws-sdk'),
-    region = configData.AWS_REGION,
-    secretName = secretName
+    region = configData.AWS_REGION
 
   AWS.config.update({
     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
@@ -36,9 +34,11 @@ function EtsyAuth() {
   var redirectUrl = "https://www.etsy.com/oauth/connect?response_type=code"
   getAwsSecret('dwd/etsyKeystring')
     .then(res => {
-      console.log(res)
       var clientId = JSON.parse(res).Etsy_Keystring;
-      window.location.href = `${redirectUrl}&client_id=${clientId}`
+      redirectUrl = `${redirectUrl}&client_id=${clientId}`
+    })
+    .then(() => {
+      window.location.href = redirectUrl
     })
 }
 

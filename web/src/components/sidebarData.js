@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiFillHome } from 'react-icons/ai';
-import { BsPersonFill, BsPeopleFill, BsTerminal } from 'react-icons/bs';
+import { BsPersonFill, BsPeopleFill } from 'react-icons/bs';
 
 export const SidebarData = [
   {
