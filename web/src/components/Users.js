@@ -16,7 +16,7 @@ class Users extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/etsy/test`, {
+    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/etsy/test`, {
       "method": "GET",
       "headers": {
         "Authorization": process.env.REACT_APP_BACKEND_API_KEY

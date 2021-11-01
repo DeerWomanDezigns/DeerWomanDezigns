@@ -65,7 +65,7 @@ export default class EtsyAuth {
     }
     var handlerUrl = window.location.href.substring(0, window.location.href.indexOf("/", 9))
     var codeVer = cookies.get('codeVerifier')
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/etsy/tokens?redirect_uri=${handlerUrl}/EtsyRedirect&code=${params.get("code")}&code_verifier=${codeVer}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/etsy/tokens?redirect_uri=${handlerUrl}/EtsyRedirect&code=${params.get("code")}&code_verifier=${codeVer}`, {
       "method": "GET",
       "headers": {
         "Authorization": process.env.REACT_APP_BACKEND_API_KEY
