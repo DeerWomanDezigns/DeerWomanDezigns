@@ -11,7 +11,7 @@ import { RiCloseFill, RiMore2Fill } from 'react-icons/ri';
 import { IconContext } from 'react-icons';
 import { SidebarData } from './components/sidebarData';
 import './components/navbar.css'
-import HandleRedirect from './components/EtsyAuth';
+import EtsyAuth from './components/EtsyAuth';
 
 var sectionStyle = {
   backgroundImage: `url(${Backdrop})`
@@ -60,7 +60,9 @@ function App() {
             <Route path='/UsersPage' component={UsersPage} />
             <Route
               path="/EtsyRedirect"
-              onEnter={() => HandleRedirect()}
+              render={
+                () => { EtsyAuth.HandleRedirect() }
+              }
             />
           </Switch>
         </Router>
