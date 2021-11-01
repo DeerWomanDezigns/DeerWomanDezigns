@@ -23,6 +23,8 @@ class Users extends React.Component {
       }
     })
       .then(res => {
+        console.log(res.status)
+        console.log(res.body)
         if (res.status === 401) {
           EtsyAuth.InitAuth("shops_r");
           this.setState({
@@ -51,7 +53,6 @@ class Users extends React.Component {
 
   render() {
     const { error, isLoaded, result, isRedirecting } = this.state;
-    console.log(this.state)
     if (error) {
       console.log("Error: " + error.message)
       console.log(this.state.error)
