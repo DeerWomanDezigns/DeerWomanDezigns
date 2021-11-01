@@ -11,6 +11,7 @@ class Users extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
+      isRedirecting: false,
       users: []
     };
   }
@@ -22,18 +23,25 @@ class Users extends React.Component {
         "Authorization": configData.API_KEY
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 401) {
+          EtsyAuth("transactions_r");
+          this.setState({
+            isRedirecting: true
+          });
+        } else {
+          res.json()
+        }
+      })
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            users: result
+            result: result
           });
-        },
+        })
+      .catch(
         (error) => {
-          if (error.message === "etsy tokens are missing and need to be acquired") {
-            EtsyAuth();
-          }
           this.setState({
             isLoaded: true,
             error: error
@@ -43,22 +51,22 @@ class Users extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, users } = this.state;
+    const { error, isLoaded, result, isRedirecting } = this.state;
     console.log(this.state)
     if (error) {
       console.log("Error: " + error.message)
       console.log(this.state.error)
       return <div>{error.message}</div>
-    } else if (!isLoaded) {
+    } else if (!isLoaded || isRedirecting) {
       return <div>
         <Spinner animation="grow" />
       </div>;
     } else {
-      console.log(users)
+      console.log(result)
       return (
         <Container className="orderList">
           <p><strong>Users:</strong></p>
-          {users.map(user => (
+          {result.map(user => (
             <Card>
               <Card.Body>
                 <Card.Title>
