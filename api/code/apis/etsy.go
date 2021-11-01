@@ -29,5 +29,4 @@ func SetTokens(c *gin.Context) {
 
 	s := services.NewEtsyService()
 	s.GetAuthToken(c, code, codeVer, redirectUri)
-	c.JSON(http.StatusOK, "Tokens acquired")
 }

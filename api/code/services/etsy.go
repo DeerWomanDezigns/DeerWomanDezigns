@@ -31,11 +31,13 @@ func (s *EtsyService) GetAuthToken(c *gin.Context, code string, codeVer string, 
 		"code_verifier": {codeVer},
 	}); err != nil {
 		log.Println("error retrieving oauth token", err)
+		c.AbortWithError(http.StatusBadRequest, err)
 	} else {
 		tokens := models.Tokens{}
 		json.NewDecoder(resp.Body).Decode(&tokens)
 		c.SetCookie("access_token", tokens.AccessToken, tokens.ExpiresIn, "/", config.Config.BackendDomain, false, true)
 		c.SetCookie("refresh_token", tokens.RefreshToken, 60*60*24*7, "/", config.Config.BackendDomain, false, true)
+		c.JSON(http.StatusOK, "Tokens acquired")
 	}
 }
 
