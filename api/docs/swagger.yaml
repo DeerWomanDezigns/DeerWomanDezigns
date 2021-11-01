@@ -35,6 +35,29 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Returns a 401
+  /api/v1/etsy/tokens:
+    get:
+      parameters:
+      - description: redirect_uri
+        in: query
+        name: redirect_uri
+        type: string
+      - description: code
+        in: query
+        name: code
+        type: string
+      - description: code_verifier
+        in: query
+        name: code_verifier
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Sets Tokens
   /api/v1/users:
     get:
       produces:
