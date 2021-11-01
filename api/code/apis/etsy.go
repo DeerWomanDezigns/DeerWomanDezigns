@@ -14,7 +14,11 @@ import (
 // @Router /api/v1/etsy/test [get]
 // @Security ApiKeyAuth
 func EtsyTest(c *gin.Context) {
-	c.JSON(http.StatusUnauthorized, gin.H{"error": "etsy tokens are missing and need to be acquired"})
+	if _, err := c.Request.Cookie("access_token"); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "etsy tokens are missing and need to be acquired"})
+	} else {
+		c.JSON(http.StatusOK, "Cookies set")
+	}
 }
 
 func AcquireTokens(c *gin.Context) {
