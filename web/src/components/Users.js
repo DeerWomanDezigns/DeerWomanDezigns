@@ -16,17 +16,17 @@ class Users extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/etsy/test`, {
+    var fetchUrl = `${process.env.REACT_APP_BACKEND_SERVER_URL}/api/v1/etsy/test`
+    fetch(fetchUrl, {
       "method": "GET",
       "headers": {
         "Authorization": process.env.REACT_APP_BACKEND_API_KEY
       }
     })
       .then(res => {
-        if(res.status !== 200) {
-          console.log(res.status)
-          console.log(res.body)
-        }
+        console.log(fetchUrl)
+        console.log(res.status)
+        console.log(res.body)
         if (res.status === 401) {
           EtsyAuth.InitAuth("shops_r");
           this.setState({
