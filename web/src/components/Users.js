@@ -24,9 +24,8 @@ class Users extends React.Component {
       }
     })
       .then(res => {
-        var headers = res.headers.get("error");
         if (res.status === 401) {
-          EtsyAuth();
+          EtsyAuth("transactions_r");
           this.setState({
             isRedirecting: true
           });

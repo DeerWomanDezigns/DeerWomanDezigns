@@ -3,7 +3,6 @@ import logo from './assets/logo_full.png';
 import './index.css';
 import Image from 'react-bootstrap/Image';
 import UsersPage from './components/UsersPage';
-import EtsyAuth from './components/EtsyAuth';
 import Backdrop from './assets/Back.jpg';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
@@ -12,6 +11,7 @@ import { RiCloseFill, RiMore2Fill } from 'react-icons/ri';
 import { IconContext } from 'react-icons';
 import { SidebarData } from './components/sidebarData';
 import './components/navbar.css'
+import HandleRedirect from './components/EtsyAuth';
 
 var sectionStyle = {
   backgroundImage: `url(${Backdrop})`
@@ -59,9 +59,8 @@ function App() {
             <Route exact path='/' />
             <Route path='/UsersPage' component={UsersPage} />
             <Route
-              path="/EtsyAuth"
-              component={EtsyAuth}
-              loc="https://Etsy.com"
+              path="/EtsyRedirect"
+              onEnter={() => HandleRedirect}
             />
           </Switch>
         </Router>

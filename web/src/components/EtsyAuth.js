@@ -30,8 +30,15 @@ async function getAwsSecret(secretName) {
   });
 }
 
-function EtsyAuth() {
+function HandleRedirect() {
+
+}
+
+function EtsyAuth(scopes) {
   var redirectUrl = "https://www.etsy.com/oauth/connect?response_type=code"
+  redirectUrl = `${redirectUrl}&scope=${scopes}`
+  var handlerUrl = window.location.href.substring(0, window.location.href.indexOf("/", 9))
+  redirectUrl = `${redirectUrl}&redirect_uri=${handlerUrl}/EtsyRedirect`
   getAwsSecret('dwd/etsyKeystring')
     .then(res => {
       var clientId = JSON.parse(res).Etsy_Keystring;
