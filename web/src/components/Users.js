@@ -2,7 +2,9 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
+import Alert from 'react-bootstrap/Alert';
 import EtsyAuth from './EtsyAuth';
+import { BiError } from 'react-icons/bi';
 
 class Users extends React.Component {
   constructor(props) {
@@ -58,7 +60,9 @@ class Users extends React.Component {
     if (error) {
       console.log("Error: " + error.message)
       console.log(this.state.error)
-      return <div>{error.message}</div>
+      return <div><BiError /><Alert variant="danger" /></div>
+    } else if (result === undefined) {
+      return <div><Alert variant="danger"><BiError />No Results</Alert></div>
     } else if (!isLoaded || isRedirecting) {
       return <div>
         <Spinner animation="grow" />
