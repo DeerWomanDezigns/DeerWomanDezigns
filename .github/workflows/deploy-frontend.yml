@@ -54,5 +54,7 @@ jobs:
               --env "LETSENCRYPT_HOST=deerwoman-dezigns.com" \
               --env "REACT_APP_BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY }}" \
               --env "REACT_APP_BACKEND_SERVER_URL=https://backend.deerwoman-dezigns.com" \
+              --env "REACT_APP_AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+              --env "REACT_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
               --name dwd_frontend \
               $(docker images 'ghcr.io/deerwomandezigns/dwd_frontend' -q)

@@ -1,3 +1,3 @@
-BACKEND_PROTOCOL: http
-BACKEND_DOMAIN: localhost
+BACKEND_PROTOCOL: https
+BACKEND_DOMAIN: backend.deerwoman-dezigns.com
 SERVER_PORT: 80

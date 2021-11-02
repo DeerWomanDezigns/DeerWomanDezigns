@@ -1,6 +1,7 @@
 package services
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -23,13 +24,15 @@ func NewEtsyService() *EtsyService {
 }
 
 func (s *EtsyService) GetAuthToken(c *gin.Context, code string, codeVer string, redirectUrl string) {
-	if resp, err := http.PostForm("https://api.etsy.com/v3/public/oauth/token", url.Values{
-		"grant_type":    {"authorization_code"},
-		"client_id":     {config.Config.EtsyClientId},
-		"redirect_uri":  {redirectUrl},
-		"code":          {code},
-		"code_verifier": {codeVer},
-	}); err != nil {
+	body := models.AuthRequest{
+		GrantType:    "authorization_code",
+		ClientID:     config.Config.EtsyClientId,
+		RedirectURI:  redirectUrl,
+		Code:         code,
+		CodeVerifier: codeVer,
+	}
+	jsonBody, _ := json.Marshal(body)
+	if resp, err := http.Post("https://api.etsy.com/v3/public/oauth/token", "application/json", bytes.NewBuffer(jsonBody)); err != nil {
 		log.Println("error retrieving oauth token", err)
 		c.AbortWithError(http.StatusBadRequest, err)
 	} else {
